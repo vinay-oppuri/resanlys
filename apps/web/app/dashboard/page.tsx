@@ -8,25 +8,48 @@ import { useState } from "react"
 
 const Page = () => {
     const trpc = useTRPC()
-    const [file, setFile] = useState<File | null>(null) 
+    const [file, setFile] = useState<File | null>(null)
     const uploadResume = useMutation(trpc.resume.create.mutationOptions({
         onSuccess: () => {
             alert("Resume uploaded successfully")
         }
-    })) 
+    }))
 
     const handleUpload = async () => {
         if (!file) return alert("Please select a file")
 
         try {
-            // TODO: upload file to storage and get url
-            const fileUrl = "https://example.com/resume.pdf"
+            // Upload file to local storage first
+            const formData = new FormData();
+            formData.append("file", file);
+
+            const uploadRes = await fetch("/api/upload", {
+                method: "POST",
+                body: formData,
+            });
+
+            if (!uploadRes.ok) {
+                throw new Error("Failed to upload file");
+            }
+
+            const { url: fileUrl } = await uploadRes.json();
+
+            // Map MIME type to simple extension to match backend Zod schema
+            const fileTypeMap: Record<string, "pdf" | "doc" | "docx"> = {
+                "application/pdf": "pdf",
+                "application/msword": "doc",
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "docx"
+            };
+
             await uploadResume.mutateAsync({
                 fileUrl,
+                fileName: file.name,
+                fileType: fileTypeMap[file.type] ?? "pdf",
+                fileSize: file.size,
             })
         } catch (error) {
-            console.log(error)
-            alert("Something went wrong")
+            console.error(error)
+            alert("Something went wrong: " + (error instanceof Error ? error.message : "Unknown error"))
         }
     }
 

@@ -15,6 +15,7 @@
         "zod": "^4.2.1",
         "@workspace/auth": "workspace:*",
         "@workspace/db": "workspace:*",
+        "@workspace/inngest": "workspace:*",
         "next": "16.1.1"
     },
     "scripts": {

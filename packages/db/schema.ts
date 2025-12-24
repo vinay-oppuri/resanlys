@@ -46,29 +46,75 @@ export const verification = pgTable("verification", {
     updatedAt: timestamp("updated_at"),
 });
 
-export const resumes = pgTable("resume", {
-    id: text("id").primaryKey(),
-    userId: text("user_id").references(() => user.id),
-    fileUrl: text("file_url"),
-    content: jsonb("content"),
-    createdAt: timestamp("created_at").notNull(),
+export const resumes = pgTable("resumes", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").references(() => user.id),
+
+  // file reference (NOT the file itself)
+  fileUrl: text("file_url").notNull(),
+  fileName: text("file_name").notNull(),
+  fileType: text("file_type").notNull(), // pdf | doc | docx
+  fileSize: integer("file_size"),
+
+  // extracted data
+  rawText: text("raw_text"), // extracted plain text
+  parsedData: jsonb("parsed_data"), // AI structured resume JSON
+
+  // pipeline state
+  status: text("status").default("uploaded"), 
+  // uploaded | processing | completed | failed
+
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at"),
 });
 
-export const jobs = pgTable("job_des", {
-    id: text("id").primaryKey(),
-    userId: text("user_id").references(() => user.id),
-    title: text("title"),
-    description: text("description"),
-    source: text("source"),
-    content: jsonb("content"),
-    createdAt: timestamp("created_at").notNull(),
+
+export const jobs = pgTable("jobs", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").references(() => user.id),
+
+  title: text("title").notNull(),
+  description: text("description"), // raw JD text
+  source: text("source"), // linkedin | indeed | manual
+
+  // AI extracted JD structure
+  parsedData: jsonb("parsed_data"), 
+  /*
+    {
+      requiredSkills: [],
+      preferredSkills: [],
+      experienceLevel: "",
+      keywords: []
+    }
+  */
+
+  createdAt: timestamp("created_at").notNull(),
 });
 
-export const matches = pgTable("job_match", {
-    id: text("id").primaryKey(),
-    resumeId: text("resume_id").references(() => resumes.id),
-    jobId: text("job_id").references(() => jobs.id),
-    score: integer("score"),
-    analysis: jsonb("analysis"),
-    createdAt: timestamp("created_at").notNull(),
+
+export const matches = pgTable("job_matches", {
+  id: text("id").primaryKey(),
+
+  resumeId: text("resume_id")
+    .references(() => resumes.id)
+    .notNull(),
+
+  jobId: text("job_id")
+    .references(() => jobs.id)
+    .notNull(),
+
+  score: integer("score").notNull(), // 0–100
+
+  analysis: jsonb("analysis"),
+  /*
+    {
+      matchedSkills: [],
+      missingSkills: [],
+      experienceMatch: "good | weak",
+      keywordCoverage: 72,
+      suggestions: []
+    }
+  */
+
+  createdAt: timestamp("created_at").notNull(),
 });

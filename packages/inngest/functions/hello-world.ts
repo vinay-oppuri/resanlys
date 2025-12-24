@@ -1,4 +1,4 @@
-import { inngest } from "@/lib/inngest/client";
+import { inngest } from "../client";
 
 export const helloWorld = inngest.createFunction(
     { id: "hello-world" },
