@@ -1,0 +1,25 @@
+{
+    "name": "@workspace/db",
+    "version": "0.1.0",
+    "private": true,
+    "main": "./index.ts",
+    "types": "./index.ts",
+    "dependencies": {
+        "dotenv": "^16.4.7",
+        "drizzle-orm": "^0.39.1",
+        "postgres": "^3.4.5",
+        "zod": "^4.2.1"
+    },
+    "scripts": {
+        "typecheck": "tsc --noEmit",
+        "generate": "drizzle-kit generate",
+        "push": "drizzle-kit push",
+        "studio": "drizzle-kit studio"
+    },
+    "devDependencies": {
+        "@workspace/typescript-config": "workspace:*",
+        "@types/node": "^20",
+        "typescript": "5.7.3",
+        "drizzle-kit": "^0.30.4"
+    }
+}

@@ -1,0 +1,37 @@
+{
+    "name": "@workspace/trpc",
+    "version": "0.1.0",
+    "private": true,
+    "main": "./index.ts",
+    "types": "./index.ts",
+    "dependencies": {
+        "@tanstack/react-query": "^5.90.12",
+        "@trpc/client": "^11.8.1",
+        "@trpc/server": "^11.8.1",
+        "@trpc/tanstack-react-query": "^11.8.1",
+        "react": "19.2.3",
+        "server-only": "^0.0.1",
+        "superjson": "^2.2.6",
+        "zod": "^4.2.1",
+        "@workspace/auth": "workspace:*",
+        "@workspace/db": "workspace:*",
+        "next": "16.1.1"
+    },
+    "scripts": {
+        "typecheck": "tsc --noEmit"
+    },
+    "exports": {
+        ".": "./index.ts",
+        "./server": "./server.ts",
+        "./client": "./client.tsx",
+        "./init": "./init.ts",
+        "./routers/_app": "./routers/_app.ts",
+        "./query-client": "./query-client.ts"
+    },
+    "devDependencies": {
+        "@types/node": "^20",
+        "@types/react": "^19",
+        "@workspace/typescript-config": "workspace:*",
+        "typescript": "5.7.3"
+    }
+}

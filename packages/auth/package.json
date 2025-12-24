@@ -1,0 +1,22 @@
+{
+    "name": "@workspace/auth",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "exports": {
+        ".": "./src/index.ts",
+        "./client": "./src/client.ts"
+    },
+    "dependencies": {
+        "@workspace/db": "workspace:*",
+        "better-auth": "^1.4.9",
+        "drizzle-orm": "^0.39.3",
+        "next": "15.2.0-canary.19",
+        "react": "19.2.3"
+    },
+    "devDependencies": {
+        "@types/react": "19.0.1",
+        "@workspace/typescript-config": "workspace:*",
+        "typescript": "5.7.3"
+    }
+}
