@@ -1,7 +1,8 @@
 import { z } from "zod"
 import { createTRPCRouter, protectedProcedure } from "../init"
-import { resumes } from "@workspace/db"
+import { db, resumes } from "@workspace/db"
 import { inngest } from "@workspace/inngest/client";
+import { and, desc, eq } from "drizzle-orm";
 
 export const resumeRouter = createTRPCRouter({
     create: protectedProcedure
@@ -48,5 +49,44 @@ export const resumeRouter = createTRPCRouter({
 
             return resume;
         }),
+
+
+    // GET USER RESUMES
+    getUserResumes: protectedProcedure
+        .query(async ({ ctx }) => {
+            const getResumes = await db
+                .select()
+                .from(resumes)
+                .where(eq(resumes.userId, ctx.auth.session.userId))
+                .orderBy(desc(resumes.createdAt));
+
+            return { getResumes }
+        }),
+
+
+    // GET PENDING RESUMES
+    getPendingResumes: protectedProcedure
+        .query(async ({ ctx }) => {
+            const getPendingResumes = await db
+                .select()
+                .from(resumes)
+                .where(and(eq(resumes.userId, ctx.auth.session.userId), eq(resumes.status, "pending")))
+                .orderBy(desc(resumes.createdAt));
+
+            return { getPendingResumes }
+        }),
+
+        
+    // GET ANALYZED RESUMES
+    getAnalyzedResumes: protectedProcedure
+        .query(async ({ ctx }) => {
+            const getAnalyzedResumes = await db
+                .select()
+                .from(resumes)
+                .where(and(eq(resumes.userId, ctx.auth.session.userId), eq(resumes.status, "analyzed")))
+                .orderBy(desc(resumes.createdAt));
+
+            return { getAnalyzedResumes }
+        })
 
 })
