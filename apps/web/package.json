@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "better-auth": "^1.4.9",
     "@workspace/auth": "workspace:*",
     "@workspace/db": "workspace:*",
     "@workspace/inngest": "workspace:*",
