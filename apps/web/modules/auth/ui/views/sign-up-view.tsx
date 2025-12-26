@@ -4,12 +4,12 @@ import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { OctagonAlertIcon } from "lucide-react"
-// import { FaGoogle, FaGithub } from 'react-icons/fa'
+import { FaGoogle, FaGithub } from 'react-icons/fa'
 import Link from "next/link"
 import Image from "next/image"
 
 import { useState } from "react"
-import { signUp } from "@workspace/auth/client"
+import { signUp, signIn } from "@workspace/auth/client"
 
 import { Input } from "@workspace/ui/components/input"
 import { Button } from "@workspace/ui/components/button"
@@ -64,34 +64,34 @@ export const SignUpView = () => {
         })
     }
 
-    // const onSocial = (provider: 'github' | 'google') => {
-    //     setError(null)
-    //     setPending(true)
+    const onSocial = (provider: 'github' | 'google') => {
+        setError(null)
+        setPending(true)
 
-    //     signIn.social({
-    //         provider: provider,
-    //         callbackURL: '/dashboard'
-    //     }, {
-    //         onSuccess: () => {
-    //             setPending(false)
-    //         },
-    //         onError: ({ error }) => {
-    //             setError(error.message)
-    //             setPending(false)
-    //         }
-    //     })
-    // }
+        signIn.social({
+            provider: provider,
+            callbackURL: '/dashboard'
+        }, {
+            onSuccess: () => {
+                setPending(false)
+            },
+            onError: ({ error }) => {
+                setError(error.message)
+                setPending(false)
+            }
+        })
+    }
 
     return (
-        <div className="flex min-h-150 w-full max-w-[1000px] overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-gray-900/5 dark:bg-zinc-900 dark:ring-white/10 mx-auto">
+        <div className="flex min-h-150 w-full max-w-250 overflow-hidden rounded-2xl bg-card shadow-2xl ring-1 ring-border/50 mx-auto">
             {/* Form Side */}
-            <div className="flex w-full flex-col justify-center p-6 md:w-1/2 md:p-8 lg:p-16 relative z-10 bg-white dark:bg-zinc-900">
+            <div className="flex w-full flex-col justify-center p-6 md:w-1/2 md:p-12 relative z-10 bg-card">
                 <div className="mx-auto flex w-full max-w-sm flex-col gap-6">
                     <div className="flex flex-col space-y-2 text-center">
-                        <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50">
+                        <h1 className="text-3xl font-bold tracking-tight text-foreground">
                             Create an account
                         </h1>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                        <p className="text-sm text-muted-foreground">
                             Enter your details to get started
                         </p>
                     </div>
@@ -103,12 +103,12 @@ export const SignUpView = () => {
                                 name="name"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-gray-700 dark:text-gray-300">Name</FormLabel>
+                                        <FormLabel className="text-foreground">Name</FormLabel>
                                         <FormControl>
                                             <Input
                                                 type="text"
                                                 placeholder="Elon Musk"
-                                                className="h-10 bg-gray-50/50 dark:bg-zinc-800/50 dark:border-zinc-700"
+                                                className="h-10 bg-muted/30 border-input focus-visible:ring-ring"
                                                 {...field}
                                             />
                                         </FormControl>
@@ -121,12 +121,12 @@ export const SignUpView = () => {
                                 name="email"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-gray-700 dark:text-gray-300">Email</FormLabel>
+                                        <FormLabel className="text-foreground">Email</FormLabel>
                                         <FormControl>
                                             <Input
                                                 type="email"
                                                 placeholder="elon@example.com"
-                                                className="h-10 bg-gray-50/50 dark:bg-zinc-800/50 dark:border-zinc-700"
+                                                className="h-10 bg-muted/30 border-input focus-visible:ring-ring"
                                                 {...field}
                                             />
                                         </FormControl>
@@ -140,12 +140,12 @@ export const SignUpView = () => {
                                     name="password"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel className="text-gray-700 dark:text-gray-300">Password</FormLabel>
+                                            <FormLabel className="text-foreground">Password</FormLabel>
                                             <FormControl>
                                                 <Input
                                                     type="password"
                                                     placeholder="••••••••"
-                                                    className="h-10 bg-gray-50/50 dark:bg-zinc-800/50 dark:border-zinc-700"
+                                                    className="h-10 bg-muted/30 border-input focus-visible:ring-ring"
                                                     {...field}
                                                 />
                                             </FormControl>
@@ -158,12 +158,12 @@ export const SignUpView = () => {
                                     name="confirmPassword"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel className="text-gray-700 dark:text-gray-300">Confirm</FormLabel>
+                                            <FormLabel className="text-foreground">Confirm</FormLabel>
                                             <FormControl>
                                                 <Input
                                                     type="password"
                                                     placeholder="••••••••"
-                                                    className="h-10 bg-gray-50/50 dark:bg-zinc-800/50 dark:border-zinc-700"
+                                                    className="h-10 bg-muted/30 border-input focus-visible:ring-ring"
                                                     {...field}
                                                 />
                                             </FormControl>
@@ -174,7 +174,7 @@ export const SignUpView = () => {
                             </div>
 
                             {!!error && (
-                                <Alert variant="destructive" className="bg-red-50 text-red-900 border-red-200 dark:bg-red-900/10 dark:text-red-300 dark:border-red-900/20">
+                                <Alert variant="destructive" className="bg-destructive/10 text-destructive border-destructive/20">
                                     <OctagonAlertIcon className="h-4 w-4" />
                                     <AlertTitle>{error}</AlertTitle>
                                 </Alert>
@@ -183,61 +183,85 @@ export const SignUpView = () => {
                             <Button
                                 disabled={pending}
                                 type="submit"
-                                className="h-11 w-full bg-linear-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 shadow-lg shadow-indigo-500/20 transition-all font-medium mt-2"
+                                className="h-11 w-full bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 shadow-lg shadow-indigo-500/20 text-white font-medium mt-2 border-none"
                             >
                                 {pending ? "Creating account..." : "Sign Up"}
                             </Button>
                         </form>
                     </Form>
 
-                    <div className="relative">
+                    <div className="relative my-6">
                         <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-gray-200 dark:border-zinc-800" />
+                            <div className="w-full border-t border-border" />
                         </div>
                         <div className="relative flex justify-center text-xs uppercase">
-                            <span className="bg-white px-2 text-gray-500 dark:bg-zinc-900 dark:text-gray-400">
+                            <span className="bg-card px-2 text-muted-foreground">
                                 Or continue with
                             </span>
                         </div>
                     </div>
 
-                    <div className="text-center text-sm text-gray-500 dark:text-gray-400">
+                    <div className="grid grid-cols-2 gap-4">
+                        <Button
+                            variant="outline"
+                            type="button"
+                            disabled={pending}
+                            onClick={() => onSocial('google')}
+                            className="h-11 bg-card hover:bg-muted border-border text-foreground"
+                        >
+                            <FaGoogle className="mr-2 h-4 w-4" />
+                            Google
+                        </Button>
+                        <Button
+                            variant="outline"
+                            type="button"
+                            disabled={pending}
+                            onClick={() => onSocial('github')}
+                            className="h-11 bg-card hover:bg-muted border-border text-foreground"
+                        >
+                            <FaGithub className="mr-2 h-4 w-4" />
+                            GitHub
+                        </Button>
+                    </div>
+
+                    <div className="text-center text-sm text-muted-foreground">
                         Already have an account?{' '}
                         <Link
                             href="/sign-in"
-                            className="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+                            className="font-semibold text-primary hover:text-primary/80 transition-colors"
                         >
                             Sign in
                         </Link>
                     </div>
                 </div>
 
-                <p className="mt-8 text-center text-xs text-gray-400 dark:text-gray-500">
+                <p className="mt-8 text-center text-xs text-muted-foreground/60">
                     By continuing, you agree to our{' '}
-                    <a href="#" className="underline hover:text-gray-600 dark:hover:text-gray-300">Terms</a>
+                    <a href="#" className="underline hover:text-foreground">Terms</a>
                     {' '}and{' '}
-                    <a href="#" className="underline hover:text-gray-600 dark:hover:text-gray-300">Privacy Policy</a>
+                    <a href="#" className="underline hover:text-foreground">Privacy Policy</a>
                 </p>
             </div>
 
             {/* Visual Side */}
-            <div className="relative hidden w-1/2 flex-col items-center justify-center overflow-hidden bg-zinc-900 text-white md:flex">
-                <div className="absolute inset-0 bg-linear-to-br from-violet-600 via-indigo-600 to-blue-600 opacity-90" />
+            <div className="relative hidden w-1/2 flex-col items-center justify-center overflow-hidden bg-background md:flex border-l border-border">
+                <div className="absolute inset-0 bg-linear-to-br from-indigo-500/20 via-transparent to-rose-500/20 blur-3xl opacity-50" />
                 <div className="absolute inset-0 bg-[url('/noise.svg')] opacity-20 mix-blend-overlay" />
 
-                {/* Abstract Shapes */}
-                <div className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-violet-400 opacity-20 blur-3xl" />
-                <div className="absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-blue-400 opacity-20 blur-3xl" />
+                {/* Abstract Shapes - Matching HeroGeometric */}
+                <div className="absolute top-[20%] left-[-10%] h-64 w-64 rounded-full bg-indigo-500/30 blur-3xl" />
+                <div className="absolute bottom-[20%] right-[-10%] h-64 w-64 rounded-full bg-rose-500/30 blur-3xl" />
+                <div className="absolute top-[60%] right-[10%] h-32 w-32 rounded-full bg-violet-500/30 blur-3xl" />
 
-                <div className="relative z-10 flex flex-col items-center gap-6 p-10 text-center">
-                    <div className="rounded-2xl bg-white/10 p-4 backdrop-blur-xl ring-1 ring-white/20 shadow-2xl">
-                        <Image src="/logo.svg" alt="Logo" width={80} height={80} className="drop-shadow-lg" />
-                    </div>
-                    <div className="space-y-2 max-w-sm">
-                        <h2 className="text-3xl font-bold tracking-tight text-white drop-shadow-md">
-                            Join Meet.AI
+                <div className="relative z-10 flex flex-col items-center gap-8 p-10 text-center">
+                    <Link href="/" className="rounded-2xl bg-white/10 dark:bg-black/10 p-6 backdrop-blur-xl ring-1 ring-black/5 dark:ring-white/10 shadow-2xl">
+                        <Image src="/logo.svg" alt="Logo" width={100} height={100} className="drop-shadow-lg animate-pulse" />
+                    </Link>
+                    <div className="space-y-3 max-w-sm">
+                        <h2 className="text-3xl font-bold tracking-tight text-foreground/90 drop-shadow-sm">
+                            Join Resanlys
                         </h2>
-                        <p className="text-indigo-100 text-lg">
+                        <p className="text-muted-foreground text-lg">
                             Start analyzing your resumes with the power of AI today.
                         </p>
                     </div>

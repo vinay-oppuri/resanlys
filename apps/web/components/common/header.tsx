@@ -3,14 +3,16 @@
 import * as React from "react"
 import Link from "next/link"
 import { useTheme } from "next-themes"
-import { Moon, Sun, Menu, X } from "lucide-react"
+import { Moon, Sun, Menu, X, ChevronRight } from "lucide-react"
 import { NeonButton } from "@workspace/ui/components/ui/neon-button"
 import { Button } from "@workspace/ui/components/button"
+import SignInDialog from "@/modules/auth/ui/components/sign-in-dialog"
+import Image from "next/image"
 
 const navItems = [
     { label: 'Home', href: '/' },
     { label: 'Explore', href: '/explore' },
-    { label: 'Dashboard', href: '/dashboard' },
+    { label: 'Dashboard', href: '/sign-in' },
     { label: 'About', href: '/about' },
 ]
 
@@ -24,14 +26,11 @@ export const Header = () => {
     return (
         <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between bg-transparent backdrop-blur-md px-6 md:px-18 py-4">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 group z-50">
-                <div className="relative w-9 h-9 flex items-center justify-center rounded-xl bg-linear-to-br from-indigo-500 via-purple-500 to-rose-500 text-white font-bold text-lg shadow-lg group-hover:shadow-indigo-500/25 transition-all duration-300">
-                    R
-                    <div className="absolute inset-0 rounded-xl bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
-                <span className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-linear-to-r from-foreground to-foreground/80 group-hover:to-foreground transition-all duration-300">
+            <Link href="/" className="flex items-center z-50">
+                <Image src="/logo.svg" alt="Logo" width={50} height={50} className="drop-shadow-lg" />
+                <NeonButton variant="ghost" className="text-2xl font-bold tracking-tight bg-linear-to-r from-blue-500 to-cyan-900 bg-clip-text text-transparent -ml-6">
                     ResAnlys
-                </span>
+                </NeonButton>
             </Link>
 
             {/* Desktop Nav */}
@@ -50,11 +49,7 @@ export const Header = () => {
 
             {/* Actions */}
             <div className="hidden md:flex items-center gap-3">
-                <Link href="/sign-in">
-                    <NeonButton className="px-6 cursor-pointer font-serif text-foreground/90">
-                        Get Started
-                    </NeonButton>
-                </Link>
+                <SignInDialog title="Get Started" className="px-6 py-2" />
                 <Button
                     variant="ghost"
                     size="icon"

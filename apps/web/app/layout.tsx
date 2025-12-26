@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import { TRPCReactProvider } from "@workspace/trpc/client";
+import { Toaster } from "@workspace/ui/components/ui/sonner";
 
 const PoppinsFont = Poppins({
   subsets: ["latin"],
@@ -33,6 +34,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
+            <Toaster />
           </ThemeProvider>
         </TRPCReactProvider>
       </body>

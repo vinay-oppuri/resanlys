@@ -7,15 +7,17 @@ import { DashboardView } from "@/modules/dashboard/ui/views/dashboard-view"
 import { auth } from "@workspace/auth"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
+import { trpc, getQueryClient } from "@workspace/trpc/server"
 
 const Page = async () => {
-    const session = await auth.api.getSession({
-        headers: await headers()
-    })
+    const session = await auth.api.getSession({ headers: await headers() })
+    if (!session) return redirect("/sign-in")
 
-    if (!session) {
-        return redirect("/sign-in")
-    }
+    const queryClient = getQueryClient()
+    // pre-fetching data
+    await queryClient.prefetchQuery(trpc.resume.getUserResumes.queryOptions())
+    await queryClient.prefetchQuery(trpc.resume.getPendingResumes.queryOptions())
+    await queryClient.prefetchQuery(trpc.resume.getAnalyzedResumes.queryOptions())
 
     return (
         <HydrationBoundary state={null}>

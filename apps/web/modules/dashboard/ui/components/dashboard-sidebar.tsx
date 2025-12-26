@@ -3,26 +3,26 @@
 import {
     BriefcaseIcon,
     FileTextIcon,
-    HomeIcon,
     SettingsIcon,
     TrendingUpIcon,
     LayoutDashboardIcon,
-    LogOut,
-    PlusCircle,
     Sun,
     Moon
 } from "lucide-react"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@workspace/ui/components/sidebar"
 import { cn } from "@workspace/ui/lib/utils"
-// import { useTheme } from "next-themes" // Theme toggle moved to header/settings if needed, or kept here.
-import { Separator } from "@workspace/ui/components/separator"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useTheme } from "next-themes"
+import { useState, useEffect } from "react"
 
 const DashboardSidebar = () => {
     const pathname = usePathname()
     const { theme, setTheme } = useTheme()
+    const [mounted, setMounted] = useState(false)
+
+    useEffect(() => setMounted(true), [])
+    if (!mounted) return null
 
     const navitems = [
         { href: "/dashboard", name: "Overview", icon: LayoutDashboardIcon },

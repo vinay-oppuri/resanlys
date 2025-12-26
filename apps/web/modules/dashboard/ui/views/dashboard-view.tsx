@@ -7,6 +7,8 @@ import { useMutation, useQuery } from "@tanstack/react-query"
 import { Upload, FileText, CheckCircle, Clock, Plus, Loader2 } from "lucide-react"
 import ErrorState from "@/components/states/error-state"
 import LoadingState from "@/components/states/loading-state"
+import LoaderOne from "@workspace/ui/components/ui/loader-one"
+import { toast } from "sonner"
 
 export const DashboardView = () => {
     const trpc = useTRPC()
@@ -19,11 +21,11 @@ export const DashboardView = () => {
     // Upload mutation
     const uploadResume = useMutation(trpc.resume.create.mutationOptions({
         onSuccess: () => {
-            alert("Resume uploaded successfully! It is now being analyzed.")
+            toast("Resume uploaded successfully! It is now being analyzed.")
             window.location.reload()
         },
         onError: (err) => {
-            alert("Upload failed: " + err.message)
+            toast("Upload failed: " + err.message)
         }
     }))
 
@@ -147,7 +149,9 @@ export const DashboardView = () => {
                         </div>
 
                         {isLoading ? (
-                            <div className="flex justify-center p-8 text-muted-foreground">Loading resumes...</div>
+                            <div className="flex items-center justify-center p-8">
+                                <LoaderOne />
+                            </div>
                         ) : resumes?.length === 0 ? (
                             <div className="text-center p-8 rounded-xl bg-muted/30 border border-border/50 text-muted-foreground">
                                 No resumes found. Upload one to get started.

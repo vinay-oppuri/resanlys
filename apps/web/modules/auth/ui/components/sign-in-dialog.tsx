@@ -9,13 +9,16 @@ import { useState } from "react"
 import { signIn } from "@workspace/auth/client"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import { cn } from "@workspace/ui/lib/utils"
 
 interface SignInDialogProps {
+    title: string
     open?: boolean
     onOpenChange?: (open: boolean) => void
+    className?: string
 }
 
-const SignInDialog = ({ open, onOpenChange }: SignInDialogProps) => {
+const SignInDialog = ({ title, open, onOpenChange, className }: SignInDialogProps) => {
     const [pending, setPending] = useState<string | null>(null)
     const router = useRouter()
 
@@ -44,10 +47,10 @@ const SignInDialog = ({ open, onOpenChange }: SignInDialogProps) => {
                 <NeonButton
                     variant="default"
                     size="lg"
-                    className="rounded-full h-14 px-8 flex items-center gap-2 text-lg font-medium cursor-pointer shadow-lg shadow-indigo-500/20"
+                    className={cn("rounded-full text-sm md:text-base text-foreground/90 font-serif flex items-center gap-2 font-medium cursor-pointer shadow-lg shadow-indigo-500/20", className)}
                 >
-                    Analyse Resume
-                    <ChevronRight className="w-5 h-5" />
+                    {title}
+                    <ChevronRight className="w-4 h-4 text-foreground/90 animate-pulse" />
                 </NeonButton>
             </DialogTrigger>
             <DialogContent className="sm:max-w-80 p-0 overflow-hidden bg-background/80 backdrop-blur-md">

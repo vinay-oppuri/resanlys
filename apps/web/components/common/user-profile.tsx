@@ -29,7 +29,7 @@ const UserProfile = () => {
     const onSignOut = async () => {
         try {
             await authClient.signOut()
-            router.push("/sign-in")
+            router.push("/")
         } catch (err) {
             console.error("Sign-out failed:", err);
         }

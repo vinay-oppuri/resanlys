@@ -75,11 +75,13 @@ function HeroGeometric({
     badge = "Design Collective",
     title1 = "Elevate Your Digital Vision",
     title2 = "Crafting Exceptional Websites",
+    description = "Crafting exceptional digital experiences through innovative design and cutting-edge technology.",
     children,
 }: {
     badge?: string;
     title1?: string;
     title2?: string;
+    description?: string;
     children?: React.ReactNode;
 }) {
     const fadeUpVariants = {
@@ -155,8 +157,8 @@ function HeroGeometric({
                         animate="visible"
                         className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/3 dark:bg-white/3 border border-black/8 dark:border-white/8 mb-8 md:mb-12"
                     >
-                        <Circle className="h-2 w-2 fill-rose-500/80" />
-                        <span className="text-sm text-foreground/60 tracking-wide">
+                        <Circle className="h-2 w-2 fill-rose-500/80 animate-pulse" />
+                        <span className="text-sm text-foreground/60 font-serif">
                             {badge}
                         </span>
                     </motion.div>
@@ -167,18 +169,17 @@ function HeroGeometric({
                         initial="hidden"
                         animate="visible"
                     >
-                        <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-6 md:mb-8 tracking-tight">
-                            <span className="bg-clip-text text-transparent bg-linear-to-b from-foreground to-foreground/80">
+                        <h1 className="flex flex-col text-4xl md:text-7xl font-bold mb-6 md:mb-8 tracking-tighter">
+                            <div className="bg-clip-text text-transparent bg-linear-to-b from-foreground to-foreground/80 p-1 md:p-3">
                                 {title1}
-                            </span>
-                            <br />
-                            <span
+                            </div>
+                            <div
                                 className={cn(
-                                    "bg-clip-text text-transparent bg-linear-to-r from-indigo-300 via-foreground/90 to-rose-300 "
+                                    "bg-clip-text text-transparent bg-linear-to-r from-indigo-300 via-foreground/90 to-rose-300 p-1 md:p-3"
                                 )}
                             >
                                 {title2}
-                            </span>
+                            </div>
                         </h1>
                     </motion.div>
 
@@ -188,9 +189,8 @@ function HeroGeometric({
                         initial="hidden"
                         animate="visible"
                     >
-                        <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed font-light tracking-wide max-w-xl mx-auto px-4">
-                            Crafting exceptional digital experiences through
-                            innovative design and cutting-edge technology.
+                        <p className="text-sm md:text-base text-muted-foreground mb-8 leading-relaxed font-light max-w-xl mx-auto px-2 md:px-4">
+                            {description}
                         </p>
                     </motion.div>
 
