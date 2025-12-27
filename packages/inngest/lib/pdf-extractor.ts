@@ -1,4 +1,6 @@
-import pdf from "pdf-parse";
+import * as pdfParseLib from "pdf-parse";
+// @ts-ignore
+const pdf = pdfParseLib.default ?? pdfParseLib;
 
 export async function extractTextFromPdf(fileUrl: string) {
     // If the URL is relative (e.g. from local upload without host), we might need to handle it. 

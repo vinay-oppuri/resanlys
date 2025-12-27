@@ -88,7 +88,7 @@ export const SignUpView = () => {
             <div className="flex w-full flex-col justify-center p-6 md:w-1/2 md:p-12 relative z-10 bg-card">
                 <div className="mx-auto flex w-full max-w-sm flex-col gap-6">
                     <div className="flex flex-col space-y-2 text-center">
-                        <h1 className="text-3xl font-bold tracking-tight text-foreground">
+                        <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
                             Create an account
                         </h1>
                         <p className="text-sm text-muted-foreground">
@@ -134,7 +134,7 @@ export const SignUpView = () => {
                                     </FormItem>
                                 )}
                             />
-                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <div className="grid grid-cols-2 gap-4">
                                 <FormField
                                     control={form.control}
                                     name="password"
@@ -190,7 +190,7 @@ export const SignUpView = () => {
                         </form>
                     </Form>
 
-                    <div className="relative my-6">
+                    <div className="relative my-3">
                         <div className="absolute inset-0 flex items-center">
                             <div className="w-full border-t border-border" />
                         </div>

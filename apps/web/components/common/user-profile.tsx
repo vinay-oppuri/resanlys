@@ -14,7 +14,6 @@ import {
     DropdownMenuContent,
     DropdownMenuGroup,
     DropdownMenuItem,
-    DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu"
@@ -42,15 +41,13 @@ const UserProfile = () => {
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <button className="outline-none group">
-                    <Avatar className="size-9 border border-white/10 ring-2 ring-white/5 transition-all duration-300 group-hover:ring-primary/20 group-hover:scale-105">
-                        <AvatarImage src={user?.image || ""} alt={user?.name || "User"} />
-                        <AvatarFallback className="bg-linear-to-br from-primary/10 to-primary/5 text-xs font-semibold text-primary">
-                            {initials}
-                        </AvatarFallback>
-                    </Avatar>
-                </button>
+            <DropdownMenuTrigger>
+                <Avatar className="size-9 border-2 border-foreground/20 transition-all duration-300 group-hover:ring-primary/20 group-hover:scale-105">
+                    <AvatarImage src={user?.image || ""} alt={user?.name || "User"} />
+                    <AvatarFallback className="bg-linear-to-br from-primary/10 to-primary/5 text-xs font-semibold text-primary">
+                        {initials}
+                    </AvatarFallback>
+                </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent
                 className="w-64 bg-black/40 backdrop-blur-xl border-white/10 p-2 shadow-2xl"

@@ -5,13 +5,15 @@ import { inngest } from "@workspace/inngest/client";
 import { and, desc, eq } from "drizzle-orm";
 
 export const resumeRouter = createTRPCRouter({
+
+    //CREATE RESUME
     create: protectedProcedure
         .input(
             z.object({
-                fileUrl: z.string().url(),
                 fileName: z.string(),
                 fileType: z.enum(["pdf", "doc", "docx"]),
                 fileSize: z.number(),
+                rawText: z.string(),
             })
         )
         .mutation(async ({ ctx, input }) => {
@@ -20,10 +22,10 @@ export const resumeRouter = createTRPCRouter({
                 .values({
                     id: crypto.randomUUID(),
                     userId: ctx.auth.session.userId,
-                    fileUrl: input.fileUrl,
                     fileName: input.fileName,
                     fileType: input.fileType,
                     fileSize: input.fileSize,
+                    rawText: input.rawText,
                     status: "uploaded",
                     createdAt: new Date(),
                 })
@@ -33,18 +35,17 @@ export const resumeRouter = createTRPCRouter({
                 throw new Error("Failed to create resume");
             }
 
-            // 🔥 Trigger background processing
+            // Inngest background job
             try {
                 await inngest.send({
                     name: "resume/uploaded",
                     data: {
                         resumeId: resume.id,
-                        fileUrl: input.fileUrl // Pass directly for optimization
+                        rawText: input.rawText
                     }
                 });
             } catch (error) {
                 console.error("Failed to trigger background processing:", error);
-                // We don't throw here to allow the upload to succeed even if processing trigger fails
             }
 
             return resume;
@@ -76,7 +77,7 @@ export const resumeRouter = createTRPCRouter({
             return { getPendingResumes }
         }),
 
-        
+
     // GET ANALYZED RESUMES
     getAnalyzedResumes: protectedProcedure
         .query(async ({ ctx }) => {

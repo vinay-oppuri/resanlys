@@ -73,12 +73,12 @@ export const SignInView = () => {
     }
 
     return (
-        <div className="flex min-h-150 w-full min-w-200 overflow-hidden rounded-2xl bg-card shadow-2xl ring-1 ring-border/50 mx-auto">
+        <div className="flex min-h-150 w-full max-w-250 overflow-hidden rounded-2xl bg-card shadow-2xl ring-1 ring-border/50 mx-auto">
             {/* Form Side */}
             <div className="flex w-full flex-col justify-center p-6 md:w-1/2 md:p-12 relative z-10 bg-card">
                 <div className="mx-auto flex w-full max-w-sm flex-col gap-6">
                     <div className="flex flex-col space-y-2 text-center">
-                        <h1 className="text-3xl font-bold tracking-tight text-foreground">
+                        <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
                             Welcome back
                         </h1>
                         <p className="text-sm text-muted-foreground">
@@ -98,7 +98,7 @@ export const SignInView = () => {
                                             <Input
                                                 type="email"
                                                 placeholder="elon@example.com"
-                                                className="h-11 bg-muted/30 border-input focus-visible:ring-ring"
+                                                className="h-10 bg-muted/30 border-input focus-visible:ring-ring"
                                                 {...field}
                                             />
                                         </FormControl>
@@ -117,7 +117,7 @@ export const SignInView = () => {
                                             <Input
                                                 type="password"
                                                 placeholder="••••••••"
-                                                className="h-11 bg-muted/30 border-input focus-visible:ring-ring"
+                                                className="h-10 bg-muted/30 border-input focus-visible:ring-ring"
                                                 {...field}
                                             />
                                         </FormControl>
@@ -136,14 +136,14 @@ export const SignInView = () => {
                             <Button
                                 disabled={pending}
                                 type="submit"
-                                className="h-11 w-full bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 shadow-lg shadow-indigo-500/20 text-white font-medium border-none"
+                                className="h-10 w-full bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 shadow-lg shadow-indigo-500/20 text-white font-medium border-none"
                             >
                                 {pending ? "Signing in..." : "Sign In"}
                             </Button>
                         </form>
                     </Form>
 
-                    <div className="relative my-6">
+                    <div className="relative my-3">
                         <div className="absolute inset-0 flex items-center">
                             <div className="w-full border-t border-border" />
                         </div>
@@ -160,7 +160,7 @@ export const SignInView = () => {
                             type="button"
                             disabled={pending}
                             onClick={() => onSocial('google')}
-                            className="h-11 bg-card hover:bg-muted border-border text-foreground"
+                            className="h-10 bg-card hover:bg-muted border-border text-foreground"
                         >
                             <FaGoogle className="mr-2 h-4 w-4" />
                             Google
@@ -170,7 +170,7 @@ export const SignInView = () => {
                             type="button"
                             disabled={pending}
                             onClick={() => onSocial('github')}
-                            className="h-11 bg-card hover:bg-muted border-border text-foreground"
+                            className="h-10 bg-card hover:bg-muted border-border text-foreground"
                         >
                             <FaGithub className="mr-2 h-4 w-4" />
                             GitHub
