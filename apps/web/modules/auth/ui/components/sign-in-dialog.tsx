@@ -10,6 +10,7 @@ import { signIn } from "@workspace/auth/client"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { cn } from "@workspace/ui/lib/utils"
+import { useSession } from "@workspace/auth/client"
 
 interface SignInDialogProps {
     title: string
@@ -20,6 +21,7 @@ interface SignInDialogProps {
 
 const SignInDialog = ({ title, open, onOpenChange, className }: SignInDialogProps) => {
     const [pending, setPending] = useState<string | null>(null)
+    const { data: session } = useSession()
     const router = useRouter()
 
     const onSocial = async (provider: 'github' | 'google') => {
@@ -36,9 +38,11 @@ const SignInDialog = ({ title, open, onOpenChange, className }: SignInDialogProp
         }
     }
 
-    const handleEmailClick = () => {
-        router.push("/sign-in")
-        if (onOpenChange) onOpenChange(false)
+    const handleClick = (e: React.MouseEvent) => {
+        if (session) {
+            e.preventDefault()
+            router.push("/dashboard")
+        }
     }
 
     return (
@@ -47,13 +51,14 @@ const SignInDialog = ({ title, open, onOpenChange, className }: SignInDialogProp
                 <NeonButton
                     variant="default"
                     size="lg"
+                    onClick={handleClick}
                     className={cn("rounded-full text-sm md:text-base text-foreground/90 font-serif flex items-center gap-2 font-medium cursor-pointer shadow-lg shadow-indigo-500/20", className)}
                 >
                     {title}
                     <ChevronRight className="hidden md:flex w-4 h-4 text-foreground/90 animate-pulse" />
                 </NeonButton>
             </DialogTrigger>
-            <DialogContent className="max-w-75 md:max-w-80 p-0 overflow-hidden bg-background/80 backdrop-blur-md">
+            <DialogContent className="max-w-75 md:max-w-80 p-0 py-4 overflow-hidden bg-background/80 backdrop-blur-md">
                 <div className="p-6 space-y-6">
                     <DialogHeader className="space-y-2 text-center">
                         <DialogTitle className="text-2xl font-bold tracking-tight mx-auto">Welcome back</DialogTitle>

@@ -4,10 +4,9 @@ import * as React from "react"
 import Link from "next/link"
 import { useTheme } from "next-themes"
 import { Moon, Sun, Menu, X, ChevronRight } from "lucide-react"
-import { NeonButton } from "@workspace/ui/components/ui/neon-button"
 import { Button } from "@workspace/ui/components/button"
 import SignInDialog from "@/modules/auth/ui/components/sign-in-dialog"
-import Image from "next/image"
+import { Logo } from "@/components/common/logo"
 
 const navItems = [
     { label: 'Home', href: '/' },
@@ -28,7 +27,7 @@ export const Header = () => {
         <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between bg-transparent backdrop-blur-md px-3 md:px-18 py-4">
             {/* Logo */}
             <Link href="/" className="flex items-center z-50">
-                <Image src="/logo.svg" alt="Logo" width={180} height={45} className="drop-shadow-sm h-12 md:h-14 w-auto" priority />
+                <Logo className="drop-shadow-sm h-12 md:h-14 w-auto" width={180} height={45} />
             </Link>
 
             {/* Desktop Nav */}
@@ -46,9 +45,9 @@ export const Header = () => {
             </nav>
 
             {/* Actions */}
-            <div className="flex items-center gap-1 md:gap-3">
+            <div className="flex items-center justify-center gap-1 md:gap-3">
                 <SignInDialog title="Get Started" className="hidden md:flex px-6 py-2" />
-                <SignInDialog title="Get Started" className="flex md:hidden px-4 py-1.5 bg-blue-500/20 backdrop-blur-sm rounded-full" />
+                <SignInDialog title="Get Started" className="flex md:hidden px-4 py-2 bg-blue-500/20 backdrop-blur-sm rounded-lg" />
                 <Button
                     variant="ghost"
                     size="icon"
@@ -64,7 +63,7 @@ export const Header = () => {
             {/* Mobile Menu Toggle */}
             <div className="md:hidden flex items-center gap-4 text-foreground/90">
                 <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                    {isMenuOpen ? <X className="size-4" /> : <Menu className="size-4" />}
+                    {isMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
                 </Button>
             </div>
 

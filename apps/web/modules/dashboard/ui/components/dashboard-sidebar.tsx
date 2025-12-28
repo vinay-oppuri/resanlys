@@ -15,7 +15,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useTheme } from "next-themes"
 import { useState, useEffect } from "react"
-import Image from "next/image"
+import { Logo } from "@/components/common/logo"
 
 const DashboardSidebar = () => {
     const pathname = usePathname()
@@ -37,14 +37,7 @@ const DashboardSidebar = () => {
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader className="mx-auto pb-4">
                 <Link href="/" className="flex items-center z-50 px-2">
-                    <Image
-                        src="/logo.svg"
-                        alt="ResAnlys Logo"
-                        width={180}
-                        height={45}
-                        className="drop-shadow-sm h-18 w-auto"
-                        priority
-                    />
+                    <Logo className="drop-shadow-sm h-12 w-auto" width={180} height={45} />
                 </Link>
             </SidebarHeader>
 
@@ -80,16 +73,14 @@ const DashboardSidebar = () => {
 
             <SidebarFooter className="p-4">
                 <SidebarMenu>
-                    <SidebarMenuItem>
+                    <SidebarMenuItem className="border-t border-foreground/10 pt-4">
                         <SidebarMenuButton
                             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                            className={cn("h-10 flex items-center justify-between gap-3 rounded-md px-3 bg-foreground/5 transition-colors",
-                                theme === "dark" ? "hover:text-background hover:bg-yellow-500/90" : "hover:text-background hover:bg-blue-500/90"
-                            )}
+                            className="h-10 flex items-center justify-between gap-3 rounded-md px-3 transition-colors"
                             tooltip="theme toggle"
                         >
                             <div>Theme</div>
-                            {theme === "dark" ? <Sun className="size-5 shrink-0" /> : <Moon className="size-5 shrink-0" />}
+                            {theme === "dark" ? <Sun className="size-5 hover:text-yellow-500/90 shrink-0" /> : <Moon className="size-5 hover:text-blue-500/90 shrink-0" />}
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>

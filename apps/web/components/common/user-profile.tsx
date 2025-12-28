@@ -43,7 +43,7 @@ const UserProfile = () => {
         <DropdownMenu>
             <DropdownMenuTrigger>
                 <Avatar className="size-9 border-2 border-foreground/20 transition-all duration-300 group-hover:ring-primary/20 group-hover:scale-105">
-                    <AvatarImage src={user?.image || ""} alt={user?.name || "User"} />
+                    <AvatarImage src={user?.image || undefined} alt={user?.name || "User"} />
                     <AvatarFallback className="bg-linear-to-br from-primary/10 to-primary/5 text-xs font-semibold text-primary">
                         {initials}
                     </AvatarFallback>
@@ -56,7 +56,7 @@ const UserProfile = () => {
             >
                 <div className="flex items-center gap-3 p-2 mb-1 rounded-xl bg-white/5 border border-white/5">
                     <Avatar className="size-10 border border-white/10">
-                        <AvatarImage src={user?.image || ""} alt={user?.name || "User"} />
+                        <AvatarImage src={user?.image || undefined} alt={user?.name || "User"} />
                         <AvatarFallback className="bg-primary/10 text-primary text-sm font-medium">
                             {initials}
                         </AvatarFallback>

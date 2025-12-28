@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { Github, Twitter, Linkedin } from "lucide-react"
-import Image from "next/image"
+import { Logo } from "@/components/common/logo"
 
 export const Footer = () => {
     return (
@@ -9,7 +9,7 @@ export const Footer = () => {
                 <div className="hidden md:grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
                     <div className="col-span-1 md:col-span-1">
                         <Link href="/" className="flex items-center gap-2 mb-4">
-                            <Image src="/logo.svg" alt="Logo" width={160} height={60} className="rounded-lg -ml-2" />
+                            <Logo className="-ml-2 h-12 w-auto" width={160} height={60} />
                         </Link>
                         <p className="text-muted-foreground text-sm leading-relaxed">
                             Empowering your career journey with AI-driven resume analysis and optimization.

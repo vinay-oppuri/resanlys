@@ -54,30 +54,20 @@ export const ResumeList = ({ resumes, isLoading }: ResumeListProps) => {
             ) : (
                 <div className="grid gap-3">
                     {resumes?.map((resume: any) => {
-                        const isSelected = resume.id === viewingId;
                         return (
                             <div
                                 key={resume.id}
                                 className={cn(
                                     "group relative flex flex-row items-center justify-between px-3 py-2 md:p-4 rounded-xl border transition-all duration-300 ease-out",
                                     "hover:shadow-lg hover:border-primary/30 hover:scale-[1.01]",
-                                    isSelected
-                                        ? "bg-primary/5 border-primary ring-1 ring-primary/20 shadow-md"
-                                        : "bg-card/50 backdrop-blur-sm border-border/40 hover:bg-card"
                                 )}
                             >
                                 <div className="flex items-center gap-4 mb-4 sm:mb-0">
-                                    <div className={cn(
-                                        "flex items-center justify-center size-10 md:size-12 rounded-xl transition-all duration-300 shadow-sm",
-                                        isSelected ? "bg-primary text-primary-foreground shadow-primary/20" : "bg-primary/5 text-primary group-hover:bg-primary/10 group-hover:scale-105"
-                                    )}>
+                                    <div className="flex items-center justify-center bg-foreground/10 size-10 md:size-12 rounded-xl transition-all duration-300 shadow-sm">
                                         <FileText className="size-5 md:size-6" />
                                     </div>
                                     <div className="space-y-1">
-                                        <p className={cn(
-                                            "font-semibold transition-colors line-clamp-1 text-sm md:text-base tracking-tight",
-                                            isSelected ? "text-primary" : "text-foreground group-hover:text-primary"
-                                        )}>
+                                        <p className="font-semibold transition-colors line-clamp-1 text-sm md:text-base tracking-tight">
                                             {resume.fileName}
                                         </p>
                                         <div className="flex items-center gap-3 text-[9px] md:text-xs text-muted-foreground font-medium">

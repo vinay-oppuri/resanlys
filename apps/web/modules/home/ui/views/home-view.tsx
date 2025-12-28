@@ -10,6 +10,9 @@ import LoadingState from "@/components/states/loading-state"
 import ErrorState from "@/components/states/error-state"
 import SignInDialog from "@/modules/auth/ui/components/sign-in-dialog"
 
+import { HowItWorks } from "../components/how-it-works"
+import { CtaSection } from "../components/cta-section"
+
 export const HomeView = () => {
   const [mounted, setMounted] = useState(false)
 
@@ -26,7 +29,7 @@ export const HomeView = () => {
         description="Unlock your career potential with our advanced AI. Analyze your resume, match with dream jobs, and get personalized improvement tips to stand out from the crowd."
       >
         <div className="flex flex-col sm:flex-row items-center gap-4 mt-8">
-          <SignInDialog title="Analyse Resume" className="h-10 md:h-14 px-8 bg-blue-500/20 backdrop-blur-sm rounded-full"/>
+          <SignInDialog title="Analyse Resume" className="h-10 md:h-14 px-8 bg-blue-500/20 backdrop-blur-sm rounded-full" />
 
           <NeonButton
             variant="ghost"
@@ -39,6 +42,8 @@ export const HomeView = () => {
       </HeroGeometric>
 
       <Features />
+      <HowItWorks />
+      <CtaSection />
       <Footer />
     </>
   )
