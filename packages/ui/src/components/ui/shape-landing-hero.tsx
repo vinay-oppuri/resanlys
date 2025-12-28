@@ -94,7 +94,7 @@ function HeroGeometric({
     };
 
     return (
-        <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-background">
+        <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-background px-2 mt-4 md:mt-2">
             <div className="absolute inset-0 bg-linear-to-br from-indigo-500/5 via-transparent to-rose-500/5 blur-3xl" />
 
             <div className="absolute inset-0 overflow-hidden">
@@ -122,7 +122,7 @@ function HeroGeometric({
                     height={80}
                     rotate={-8}
                     gradient="from-violet-500/15"
-                    className="left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%] w-[200px] md:w-[300px] h-[60px] md:h-[80px] opacity-50"
+                    className="left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%] w-[200px] md:w-[300px] h-[60px] md:h-20 opacity-50"
                 />
 
                 <ElegantShape
@@ -131,7 +131,7 @@ function HeroGeometric({
                     height={60}
                     rotate={20}
                     gradient="from-amber-500/15"
-                    className="right-[15%] md:right-[20%] top-[10%] md:top-[15%] w-[150px] md:w-[200px] h-[40px] md:h-[60px] opacity-50"
+                    className="right-[15%] md:right-[20%] top-[10%] md:top-[15%] w-[150px] md:w-[200px] h-10 md:h-[60px] opacity-50"
                 />
 
                 <ElegantShape
@@ -140,7 +140,7 @@ function HeroGeometric({
                     height={40}
                     rotate={-25}
                     gradient="from-cyan-500/15"
-                    className="left-[20%] md:left-[25%] top-[5%] md:top-[10%] w-[100px] md:w-[150px] h-[30px] md:h-[40px] opacity-50"
+                    className="left-[20%] md:left-[25%] top-[5%] md:top-[10%] w-[100px] md:w-[150px] h-[30px] md:h-10 opacity-50"
                 />
             </div>
 

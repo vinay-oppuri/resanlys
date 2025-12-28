@@ -37,7 +37,7 @@ const DashboardSidebar = () => {
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader className="mx-auto pb-4">
                 <Link href="/" className="flex items-center z-50 px-2">
-                    <Logo className="drop-shadow-sm h-12 w-auto" width={180} height={45} />
+                    <Logo className="drop-shadow-sm h-12 w-auto my-4" width={180} height={45} />
                 </Link>
             </SidebarHeader>
 

@@ -1,12 +1,12 @@
 "use client"
 
-import * as React from "react"
 import Link from "next/link"
 import { useTheme } from "next-themes"
 import { Moon, Sun, Menu, X, ChevronRight } from "lucide-react"
 import { Button } from "@workspace/ui/components/button"
 import SignInDialog from "@/modules/auth/ui/components/sign-in-dialog"
 import { Logo } from "@/components/common/logo"
+import { useEffect, useState } from "react"
 
 const navItems = [
     { label: 'Home', href: '/' },
@@ -17,10 +17,10 @@ const navItems = [
 
 export const Header = () => {
     const { theme, setTheme } = useTheme()
-    const [mounted, setMounted] = React.useState(false)
-    const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+    const [mounted, setMounted] = useState(false)
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-    React.useEffect(() => setMounted(true), [])
+    useEffect(() => setMounted(true), [])
     if (!mounted) return null
 
     return (
@@ -45,24 +45,23 @@ export const Header = () => {
             </nav>
 
             {/* Actions */}
-            <div className="flex items-center justify-center gap-1 md:gap-3">
-                <SignInDialog title="Get Started" className="hidden md:flex px-6 py-2" />
-                <SignInDialog title="Get Started" className="flex md:hidden px-4 py-2 bg-blue-500/20 backdrop-blur-sm rounded-lg" />
-                <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                    className="hidden md:flex rounded-full hover:bg-secondary"
-                >
-                    <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                    <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                    <span className="sr-only">Toggle theme</span>
-                </Button>
-            </div>
+            <div className="flex items-center justify-center gap-1">
+                <div className="flex items-center justify-center gap-1 md:gap-3">
+                    <SignInDialog title="Get Started" className="hidden md:flex px-6 py-2" />
+                    <SignInDialog title="Get Started" className="flex md:hidden px-4 py-2 bg-blue-500/20 backdrop-blur-sm rounded-lg" />
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                        className="hidden md:flex rounded-full hover:bg-secondary"
+                    >
+                        <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                        <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                        <span className="sr-only">Toggle theme</span>
+                    </Button>
+                </div>
 
-            {/* Mobile Menu Toggle */}
-            <div className="md:hidden flex items-center gap-4 text-foreground/90">
-                <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden flex items-center gap-4 text-foreground/90">
                     {isMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
                 </Button>
             </div>
