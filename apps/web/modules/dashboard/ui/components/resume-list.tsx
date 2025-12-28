@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { FileText, Clock, CheckCircle, Loader2, ChevronRight, Sparkles, Eye, X, Check } from "lucide-react"
+import { FileText, Clock, Loader2, Sparkles, X, Check } from "lucide-react"
 import { Button } from "@workspace/ui/components/button"
 import LoaderOne from "@workspace/ui/components/ui/loader-one"
 import { Badge } from "@workspace/ui/components/badge"
@@ -33,7 +33,7 @@ export const ResumeList = ({ resumes, isLoading }: ResumeListProps) => {
     return (
         <div className="space-y-4">
             <div className="flex items-center justify-between px-1">
-                <h3 className="text-xl font-semibold tracking-tight">Your Library</h3>
+                <h3 className="text-lg md:text-xl font-semibold tracking-tight">Your Library</h3>
             </div>
 
             {isLoading ? (
@@ -59,7 +59,7 @@ export const ResumeList = ({ resumes, isLoading }: ResumeListProps) => {
                             <div
                                 key={resume.id}
                                 className={cn(
-                                    "group relative flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl border transition-all duration-300 ease-out",
+                                    "group relative flex flex-row items-center justify-between px-3 py-2 md:p-4 rounded-xl border transition-all duration-300 ease-out",
                                     "hover:shadow-lg hover:border-primary/30 hover:scale-[1.01]",
                                     isSelected
                                         ? "bg-primary/5 border-primary ring-1 ring-primary/20 shadow-md"
@@ -68,19 +68,19 @@ export const ResumeList = ({ resumes, isLoading }: ResumeListProps) => {
                             >
                                 <div className="flex items-center gap-4 mb-4 sm:mb-0">
                                     <div className={cn(
-                                        "flex items-center justify-center size-12 rounded-xl transition-all duration-300 shadow-sm",
+                                        "flex items-center justify-center size-10 md:size-12 rounded-xl transition-all duration-300 shadow-sm",
                                         isSelected ? "bg-primary text-primary-foreground shadow-primary/20" : "bg-primary/5 text-primary group-hover:bg-primary/10 group-hover:scale-105"
                                     )}>
-                                        <FileText className="size-6" />
+                                        <FileText className="size-5 md:size-6" />
                                     </div>
                                     <div className="space-y-1">
                                         <p className={cn(
-                                            "font-semibold transition-colors line-clamp-1 text-base tracking-tight",
+                                            "font-semibold transition-colors line-clamp-1 text-sm md:text-base tracking-tight",
                                             isSelected ? "text-primary" : "text-foreground group-hover:text-primary"
                                         )}>
                                             {resume.fileName}
                                         </p>
-                                        <div className="flex items-center gap-3 text-xs text-muted-foreground font-medium">
+                                        <div className="flex items-center gap-3 text-[9px] md:text-xs text-muted-foreground font-medium">
                                             <span className="flex items-center gap-1.5 bg-muted/50 px-2 py-0.5 rounded-md">
                                                 <Clock className="size-3" />
                                                 {new Date(resume.createdAt).toLocaleDateString(undefined, {
@@ -93,10 +93,10 @@ export const ResumeList = ({ resumes, isLoading }: ResumeListProps) => {
                                     </div>
                                 </div>
 
-                                <div className="flex items-center gap-3 justify-end">
+                                <div className="flex flex-col-reverse sm:flex-row items-center gap-3 justify-end">
                                     {resume.status === 'processing' && (
                                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-medium border border-amber-500/20 shadow-sm animate-pulse">
-                                            <Loader2 className="size-3.5 animate-spin" />
+                                            <Loader2 className="size-2 md:size-3.5 animate-spin" />
                                             <span>Processing</span>
                                         </span>
                                     )}
@@ -105,7 +105,7 @@ export const ResumeList = ({ resumes, isLoading }: ResumeListProps) => {
                                         <DialogTrigger asChild>
                                             <Button
                                                 variant="outline"
-                                                className="backdrop-blur-sm transition-all hover:bg-primary/5 hover:text-primary hover:border-primary/30"
+                                                className="text-xs rounded-full backdrop-blur-sm transition-all hover:bg-primary/5 hover:text-primary hover:border-primary/30"
                                                 onClick={() => handleGetSuggestions(resume.id)}
                                             >
                                                 Get Suggestions

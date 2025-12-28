@@ -21,14 +21,14 @@ export const DashboardView = () => {
 
     return (
         <div className="min-h-screen w-full bg-background/50">
-            <div className="max-w-7xl mx-auto p-6 md:p-8 space-y-10">
+            <div className="max-w-7xl mx-auto p-4 md:p-8 space-y-5 md:space-y-10">
 
                 {/* Header Section */}
                 <div className="space-y-2">
-                    <h1 className="text-3xl md:text-4xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
+                    <h1 className="text-2xl md:text-4xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
                         Dashboard
                     </h1>
-                    <p className="text-muted-foreground text-lg">
+                    <p className="text-muted-foreground text-sm md:text-lg">
                         Manage your resumes and get AI-powered insights.
                     </p>
                 </div>

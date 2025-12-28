@@ -58,7 +58,7 @@ export const ResumeUpload = () => {
     return (
         <div className="relative group">
             <div className={`
-                relative flex flex-col items-center justify-center p-12 text-center
+                relative flex flex-row md:flex-col items-center justify-center p-4 md:p-12 text-center
                 border-2 border-dashed rounded-2xl transition-all duration-300 ease-in-out
                 ${uploading
                     ? 'border-primary/50 bg-primary/5 cursor-wait'
@@ -74,7 +74,7 @@ export const ResumeUpload = () => {
                 />
 
                 <div className={`
-                    p-4 mb-4 rounded-full bg-primary/10 text-primary transition-transform duration-300 group-hover:scale-110
+                    p-4 md:mb-4 rounded-full bg-primary/10 text-primary transition-transform duration-300 group-hover:scale-110
                     ${uploading ? 'animate-pulse' : ''}
                 `}>
                     {uploading ? <Loader2 className="w-8 h-8 animate-spin" /> : <Upload className="w-8 h-8" />}
@@ -87,7 +87,7 @@ export const ResumeUpload = () => {
                     <p className="text-sm text-muted-foreground">
                         {uploading
                             ? "Please wait while we process your file."
-                            : "Drag & drop your PDF here or click to browse. Max size 5MB."
+                            : "Click to upload your resume."
                         }
                     </p>
                 </div>

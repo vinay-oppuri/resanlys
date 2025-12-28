@@ -50,7 +50,7 @@ const SignInDialog = ({ title, open, onOpenChange, className }: SignInDialogProp
                     className={cn("rounded-full text-sm md:text-base text-foreground/90 font-serif flex items-center gap-2 font-medium cursor-pointer shadow-lg shadow-indigo-500/20", className)}
                 >
                     {title}
-                    <ChevronRight className="w-4 h-4 text-foreground/90 animate-pulse" />
+                    <ChevronRight className="hidden md:flex w-4 h-4 text-foreground/90 animate-pulse" />
                 </NeonButton>
             </DialogTrigger>
             <DialogContent className="sm:max-w-80 p-0 overflow-hidden bg-background/80 backdrop-blur-md">

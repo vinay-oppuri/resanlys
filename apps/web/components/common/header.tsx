@@ -19,6 +19,7 @@ const navItems = [
 export const Header = () => {
     const { theme, setTheme } = useTheme()
     const [mounted, setMounted] = React.useState(false)
+    const [isMenuOpen, setIsMenuOpen] = React.useState(false)
 
     React.useEffect(() => setMounted(true), [])
     if (!mounted) return null
@@ -27,10 +28,7 @@ export const Header = () => {
         <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between bg-transparent backdrop-blur-md px-6 md:px-18 py-4">
             {/* Logo */}
             <Link href="/" className="flex items-center z-50">
-                <Image src="/logo.svg" alt="Logo" width={50} height={50} className="drop-shadow-lg" />
-                <NeonButton variant="ghost" className="text-2xl font-bold tracking-tight bg-linear-to-r from-blue-500 to-cyan-900 bg-clip-text text-transparent -ml-6">
-                    ResAnlys
-                </NeonButton>
+                <Image src="/logo.svg" alt="Logo" width={180} height={45} className="drop-shadow-sm h-12 md:h-14 w-auto" priority />
             </Link>
 
             {/* Desktop Nav */}
@@ -48,19 +46,45 @@ export const Header = () => {
             </nav>
 
             {/* Actions */}
-            <div className="hidden md:flex items-center gap-3">
-                <SignInDialog title="Get Started" className="px-6 py-2" />
+            <div className="flex items-center gap-1 md:gap-3">
+                <SignInDialog title="Get Started" className="hidden md:flex px-6 py-2" />
+                <SignInDialog title="Get Started" className="flex md:hidden px-4 py-2 bg-blue-500/20 backdrop-blur-sm rounded-full" />
                 <Button
                     variant="ghost"
                     size="icon"
                     onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                    className="rounded-full hover:bg-secondary"
+                    className="hidden md:flex rounded-full hover:bg-secondary"
                 >
                     <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                     <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                     <span className="sr-only">Toggle theme</span>
                 </Button>
             </div>
+
+            {/* Mobile Menu Toggle */}
+            <div className="md:hidden flex items-center gap-4 text-foreground/90">
+                <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                    {isMenuOpen ? <X className="size-4" /> : <Menu className="size-4" />}
+                </Button>
+            </div>
+
+            {/* Mobile Nav Dropdown */}
+            {isMenuOpen && (
+                <div className="absolute top-full left-0 right-0 bg-background/95 backdrop-blur-xl border-b md:hidden flex flex-col p-6 gap-4 shadow-2xl animate-in slide-in-from-top-5 duration-200">
+                    <nav className="flex flex-col space-y-2">
+                        {navItems.map((item) => (
+                            <Link
+                                key={item.label}
+                                href={item.href}
+                                onClick={() => setIsMenuOpen(false)}
+                                className="px-4 py-3 text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-muted/50 rounded-xl transition-colors"
+                            >
+                                {item.label}
+                            </Link>
+                        ))}
+                    </nav>
+                </div>
+            )}
         </header>
     )
 }

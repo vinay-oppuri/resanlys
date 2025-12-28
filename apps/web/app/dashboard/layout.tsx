@@ -12,8 +12,8 @@ const Layout = ({ children }: Props) => {
         <SidebarProvider>
             <div className="flex h-screen w-full bg-background overflow-hidden">
                 <DashboardSidebar />
-                <main className="flex-1 flex flex-col h-full p-3 md:pl-1 overflow-hidden">
-                    <div className="flex-1 rounded-3xl bg-sidebar border border-foreground/10 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <main className="flex-1 flex flex-col h-full p-0 md:p-3 md:pl-1 overflow-hidden">
+                    <div className="flex-1 md:rounded-3xl bg-sidebar border border-foreground/10 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                         <DashboardNavbar />
                         {children}
                     </div>

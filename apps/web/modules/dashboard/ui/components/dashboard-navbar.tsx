@@ -29,7 +29,7 @@ const DashboardNavbar = () => {
             </div>
 
             <div className="flex items-center gap-3">
-                <div className="relative hidden sm:block w-64 lg:w-80">
+                <div className="relative block w-46 lg:w-80">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
                     <Input
                         placeholder="Search resumes..."

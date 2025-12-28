@@ -33,21 +33,21 @@ export const DashboardStats = ({ totalResumes, analyzedCount, pendingCount, isLo
     ]
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-6">
             {stats.map((stat) => (
-                <div key={stat.label} className="group relative overflow-hidden p-6 rounded-2xl bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-300">
+                <div key={stat.label} className="group relative overflow-hidden p-3 md:p-4 rounded-2xl bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-300">
                     <div className={`absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity ${stat.color}`}>
                         <stat.icon className="h-24 w-24 -mr-8 -mt-8" />
                     </div>
 
-                    <div className="relative flex flex-col gap-4">
-                        <div className={`w-fit p-3 rounded-xl bg-linear-to-br ${stat.bg} ${stat.color} bg-opacity-10`}>
+                    <div className="relative flex flex-row gap-4">
+                        <div className={`w-fit p-3 my-auto rounded-xl bg-linear-to-br ${stat.bg} ${stat.color} bg-opacity-10`}>
                             <stat.icon className="size-6" />
                         </div>
 
                         <div>
                             <p className="text-sm font-medium text-muted-foreground">{stat.label}</p>
-                            <h3 className="text-3xl font-bold tracking-tight text-foreground mt-1">
+                            <h3 className="text-2xl font-bold tracking-tight text-foreground mt-1">
                                 {isLoading ? (
                                     <span className="animate-pulse bg-muted h-8 w-16 block rounded"></span>
                                 ) : (

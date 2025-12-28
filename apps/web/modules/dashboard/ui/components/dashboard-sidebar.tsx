@@ -15,6 +15,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useTheme } from "next-themes"
 import { useState, useEffect } from "react"
+import Image from "next/image"
 
 const DashboardSidebar = () => {
     const pathname = usePathname()
@@ -34,14 +35,16 @@ const DashboardSidebar = () => {
 
     return (
         <Sidebar collapsible="icon" variant="inset">
-            <SidebarHeader className="pb-4">
-                <Link href="/" className="flex items-center gap-3 px-2 py-4 group-data-[collapsible=icon]:justify-center">
-                    <div className="relative w-8 h-8 flex items-center justify-center rounded-lg bg-linear-to-br from-indigo-500 via-purple-500 to-rose-500 text-white font-bold text-lg shadow-md">
-                        R
-                    </div>
-                    <span className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-linear-to-r from-foreground to-foreground/80 group-data-[collapsible=icon]:hidden">
-                        ResAnlys
-                    </span>
+            <SidebarHeader className="mx-auto pb-4">
+                <Link href="/" className="flex items-center z-50 px-2">
+                    <Image
+                        src="/logo.svg"
+                        alt="ResAnlys Logo"
+                        width={180}
+                        height={45}
+                        className="drop-shadow-sm h-18 w-auto"
+                        priority
+                    />
                 </Link>
             </SidebarHeader>
 
@@ -58,7 +61,7 @@ const DashboardSidebar = () => {
                                 <SidebarMenuButton
                                     asChild
                                     className={cn(
-                                        "h-10 rounded-lg px-3 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-all duration-200",
+                                        "h-10 rounded-md px-3 text-foreground/90 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-all duration-200",
                                         pathname === item.href && "bg-sidebar-accent text-sidebar-accent-foreground font-medium shadow-sm"
                                     )}
                                     isActive={pathname === item.href}
@@ -80,8 +83,8 @@ const DashboardSidebar = () => {
                     <SidebarMenuItem>
                         <SidebarMenuButton
                             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                            className={cn("h-10 flex items-center justify-between gap-3 rounded-lg px-3 bg-foreground/10 transition-colors",
-                                theme === "dark" ? "hover:text-background hover:bg-yellow-500" : "hover:text-background hover:bg-blue-500"
+                            className={cn("h-10 flex items-center justify-between gap-3 rounded-md px-3 bg-foreground/5 transition-colors",
+                                theme === "dark" ? "hover:text-background hover:bg-yellow-500/90" : "hover:text-background hover:bg-blue-500/90"
                             )}
                             tooltip="theme toggle"
                         >

@@ -24,23 +24,15 @@ export interface EnhancedData {
     overall_match_feedback: string;
 }
 
-export const ResumeEnhance = ({ resumes, selectedResumeId: propSelectedId, onResumeSelect }: ResumeEnhanceProps) => {
+export const ResumeEnhance = ({ resumes, selectedResumeId: propSelectedId }: ResumeEnhanceProps) => {
     const trpc = useTRPC()
     const [isMounted, setIsMounted] = useState(false)
     const [jobTitle, setJobTitle] = useState<string>("")
     const [jobDescription, setJobDescription] = useState<string>("")
     const [internalSelectedId, setInternalSelectedId] = useState<string>("")
-    const [viewAnalysisOpen, setViewAnalysisOpen] = useState(false)
 
     // Use prop if available, otherwise internal state
     const selectedResumeId = propSelectedId !== undefined ? propSelectedId : internalSelectedId
-
-    const handleResumeSelect = (id: string) => {
-        setInternalSelectedId(id)
-        if (onResumeSelect) {
-            onResumeSelect(id)
-        }
-    }
 
     useEffect(() => {
         setIsMounted(true)
@@ -55,14 +47,6 @@ export const ResumeEnhance = ({ resumes, selectedResumeId: propSelectedId, onRes
             toast.error("Failed to upload job")
         }
     }))
-
-    // Query for analysis data when dialog is open
-    const { data: analysisData, isLoading: isLoadingAnalysis, refetch: refetchAnalysis } = useQuery({
-        ...trpc.jobs.getEnhanceSuggestions.queryOptions({
-            resumeId: selectedResumeId || ""
-        }),
-        enabled: viewAnalysisOpen && !!selectedResumeId
-    })
 
     const handleSaveJob = async () => {
         if (!selectedResumeId || !jobTitle || !jobDescription) {
@@ -82,37 +66,37 @@ export const ResumeEnhance = ({ resumes, selectedResumeId: propSelectedId, onRes
     }
 
     return (
-        <div className="p-8 rounded-3xl bg-card/60 backdrop-blur-xl border border-border/40 shadow-2xl space-y-8 animate-in slide-in-from-right-8 duration-700 ease-out ring-1 ring-white/10">
+        <div className="p-4 md:p-8 rounded-xl bg-card/60 backdrop-blur-xl border border-border/40 shadow-2xl space-y-8 animate-in slide-in-from-right-8 duration-700 ease-out ring-1 ring-white/10">
             <div className="space-y-1.5">
-                <h2 className="text-2xl font-bold tracking-tight bg-linear-to-br from-foreground to-muted-foreground bg-clip-text text-transparent">Job Details</h2>
+                <h2 className="text-xl md:text-2xl font-bold tracking-tight bg-linear-to-br from-foreground to-muted-foreground bg-clip-text text-transparent">Job Details</h2>
                 <p className="text-muted-foreground text-sm font-medium">Paste the job description you are targeting to get tailored insights.</p>
             </div>
 
             <div className="space-y-6">
-                <div className="space-y-2.5">
+                <div className="flex flex-col gap-2">
                     <label className="text-sm font-semibold text-foreground/80 ml-1">Job Title</label>
                     <Input
                         placeholder="e.g. Senior Frontend Engineer"
                         value={jobTitle}
                         onChange={(e) => setJobTitle(e.target.value)}
-                        className="h-12 px-4 bg-background/50 border-border/60 focus:border-primary/50 transition-all duration-300 focus:scale-[1.005] focus:ring-4 focus:ring-primary/10 rounded-xl"
+                        className="h-10 px-4 text-sm md:text-md bg-background/50 border-border/60 focus:border-primary/50 transition-all duration-300 focus:scale-[1.005] focus:ring-4 focus:ring-primary/10 rounded-md"
                     />
                 </div>
 
-                <div className="space-y-2.5">
+                <div className="flex flex-col gap-2">
                     <label className="text-sm font-semibold text-foreground/80 ml-1">Job Description</label>
                     <Textarea
                         value={jobDescription}
                         onChange={(e) => setJobDescription(e.target.value)}
                         placeholder="Paste the full job description here..."
-                        className="min-h-[200px] resize-y p-4 bg-background/50 border-border/60 focus:border-primary/50 transition-all duration-300 focus:scale-[1.005] focus:ring-4 focus:ring-primary/10 rounded-xl leading-relaxed"
+                        className="min-h-31 resize-y px-4 text-sm md:text-md bg-background/50 border-border/60 focus:border-primary/50 transition-all duration-300 focus:scale-[1.005] focus:ring-4 focus:ring-primary/10 rounded-md leading-relaxed"
                     />
                 </div>
 
                 <Button
                     onClick={handleSaveJob}
                     disabled={!selectedResumeId || !jobTitle || !jobDescription || uploadJob.isPending}
-                    className="w-full h-12 gap-2 text-base font-semibold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5 rounded-xl"
+                    className="w-full h-10 gap-2 text-sm md:text-base font-semibold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5 rounded-xl"
                     variant="default"
                 >
                     {uploadJob.isPending ? (

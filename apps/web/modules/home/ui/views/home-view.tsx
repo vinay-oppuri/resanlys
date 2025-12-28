@@ -26,12 +26,12 @@ export const HomeView = () => {
         description="Unlock your career potential with our advanced AI. Analyze your resume, match with dream jobs, and get personalized improvement tips to stand out from the crowd."
       >
         <div className="flex flex-col sm:flex-row items-center gap-4 mt-8">
-          <SignInDialog title="Analyse Resume" className="h-14 px-8"/>
+          <SignInDialog title="Analyse Resume" className="h-10 md:h-14 px-8 bg-blue-500/20 backdrop-blur-sm rounded-full"/>
 
           <NeonButton
             variant="ghost"
             size="lg"
-            className="rounded-full h-14 px-8 text-sm md:text-base text-foreground/90 font-serif cursor-pointer hover:bg-white/5 border border-transparent hover:border-white/10"
+            className="rounded-full h-10 md:h-14 px-8 text-sm md:text-base text-foreground/90 font-serif cursor-pointer hover:bg-white/5 border border-transparent hover:border-white/10"
           >
             View Demo
           </NeonButton>

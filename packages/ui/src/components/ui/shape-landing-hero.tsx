@@ -49,11 +49,7 @@ function ElegantShape({
                     repeat: Number.POSITIVE_INFINITY,
                     ease: "easeInOut",
                 }}
-                style={{
-                    width,
-                    height,
-                }}
-                className="relative"
+                className="relative w-full h-full"
             >
                 <div
                     className={cn(
@@ -108,7 +104,7 @@ function HeroGeometric({
                     height={140}
                     rotate={12}
                     gradient="from-indigo-500/15"
-                    className="left-[-10%] md:left-[-5%] top-[15%] md:top-[20%]"
+                    className="hidden md:block left-[-10%] md:left-[-5%] top-[15%] md:top-[20%] w-[300px] md:w-[600px] h-[70px] md:h-[140px] opacity-50"
                 />
 
                 <ElegantShape
@@ -117,7 +113,7 @@ function HeroGeometric({
                     height={120}
                     rotate={-15}
                     gradient="from-rose-500/15"
-                    className="right-[-5%] md:right-[0%] top-[70%] md:top-[75%]"
+                    className="hidden md:block right-[-5%] md:right-[0%] top-[70%] md:top-[75%] w-[250px] md:w-[500px] h-[60px] md:h-[120px] opacity-50"
                 />
 
                 <ElegantShape
@@ -126,7 +122,7 @@ function HeroGeometric({
                     height={80}
                     rotate={-8}
                     gradient="from-violet-500/15"
-                    className="left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%]"
+                    className="left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%] w-[200px] md:w-[300px] h-[60px] md:h-[80px] opacity-50"
                 />
 
                 <ElegantShape
@@ -135,7 +131,7 @@ function HeroGeometric({
                     height={60}
                     rotate={20}
                     gradient="from-amber-500/15"
-                    className="right-[15%] md:right-[20%] top-[10%] md:top-[15%]"
+                    className="right-[15%] md:right-[20%] top-[10%] md:top-[15%] w-[150px] md:w-[200px] h-[40px] md:h-[60px] opacity-50"
                 />
 
                 <ElegantShape
@@ -144,7 +140,7 @@ function HeroGeometric({
                     height={40}
                     rotate={-25}
                     gradient="from-cyan-500/15"
-                    className="left-[20%] md:left-[25%] top-[5%] md:top-[10%]"
+                    className="left-[20%] md:left-[25%] top-[5%] md:top-[10%] w-[100px] md:w-[150px] h-[30px] md:h-[40px] opacity-50"
                 />
             </div>
 
