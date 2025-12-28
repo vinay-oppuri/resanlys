@@ -1,8 +1,8 @@
 import { z } from "zod"
 import { createTRPCRouter, protectedProcedure } from "../init"
-import { db, resumes } from "@workspace/db"
+import { db, resumes, jobs } from "@workspace/db"
 import { inngest } from "@workspace/inngest/client";
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, sql } from "drizzle-orm";
 
 export const resumeRouter = createTRPCRouter({
 
@@ -56,7 +56,17 @@ export const resumeRouter = createTRPCRouter({
     getUserResumes: protectedProcedure
         .query(async ({ ctx }) => {
             const getResumes = await db
-                .select()
+                .select({
+                    id: resumes.id,
+                    userId: resumes.userId,
+                    fileName: resumes.fileName,
+                    fileType: resumes.fileType,
+                    fileSize: resumes.fileSize,
+                    rawText: resumes.rawText,
+                    status: resumes.status,
+                    createdAt: resumes.createdAt,
+                    hasEnhancedData: sql<boolean>`EXISTS (SELECT 1 FROM ${jobs} WHERE ${jobs.resumeId} = ${resumes.id} AND ${jobs.enhancedData} IS NOT NULL)`
+                })
                 .from(resumes)
                 .where(eq(resumes.userId, ctx.auth.session.userId))
                 .orderBy(desc(resumes.createdAt));

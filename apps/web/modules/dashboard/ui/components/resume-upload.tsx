@@ -56,29 +56,53 @@ export const ResumeUpload = () => {
     }
 
     return (
-        <div className="p-10 rounded-2xl bg-background border-2 border-primary/20 flex flex-col items-center justify-center text-center space-y-6 relative overflow-hidden group hover:border-primary/40 transition-colors">
-            <div className="z-10 bg-background/50 p-4 rounded-full backdrop-blur-sm">
-                <Upload className="size-10 text-primary" />
-            </div>
-
-            <div className="z-10 space-y-2 max-w-md">
-                <h2 className="text-2xl font-semibold text-foreground">Upload and Store Resume</h2>
-                <p className="text-muted-foreground">
-                    Upload your PDF resume to safe storage. We will process it for future analysis.
-                </p>
-            </div>
-
-            <div className="z-10 flex flex-col items-center gap-3 w-full max-w-xs">
+        <div className="relative group">
+            <div className={`
+                relative flex flex-col items-center justify-center p-12 text-center
+                border-2 border-dashed rounded-2xl transition-all duration-300 ease-in-out
+                ${uploading
+                    ? 'border-primary/50 bg-primary/5 cursor-wait'
+                    : 'border-muted-foreground/25 hover:border-primary/50 hover:bg-primary/5 cursor-pointer'
+                }
+            `}>
                 <input
                     type="file"
                     accept=".pdf"
-                    className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90 text-sm text-foreground cursor-pointer w-full text-center"
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
                     onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+                    disabled={uploading}
                 />
-                <Button size="lg" className="w-full font-semibold shadow-lg shadow-primary/20" onClick={handleUpload} disabled={!file || uploading}>
-                    {uploading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
-                    {uploading ? "Uploading..." : "Save to Library"}
-                </Button>
+
+                <div className={`
+                    p-4 mb-4 rounded-full bg-primary/10 text-primary transition-transform duration-300 group-hover:scale-110
+                    ${uploading ? 'animate-pulse' : ''}
+                `}>
+                    {uploading ? <Loader2 className="w-8 h-8 animate-spin" /> : <Upload className="w-8 h-8" />}
+                </div>
+
+                <div className="space-y-2 max-w-sm mx-auto">
+                    <h3 className="text-xl font-semibold tracking-tight">
+                        {uploading ? "Uploading Resume..." : "Upload Resume"}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                        {uploading
+                            ? "Please wait while we process your file."
+                            : "Drag & drop your PDF here or click to browse. Max size 5MB."
+                        }
+                    </p>
+                </div>
+
+                {file && !uploading && (
+                    <div className="mt-6 flex items-center gap-2 px-4 py-2 bg-background rounded-full border shadow-sm animate-in fade-in slide-in-from-bottom-2">
+                        <span className="text-sm font-medium truncate max-w-[200px]">{file.name}</span>
+                        <Button size="sm" onClick={(e) => {
+                            e.stopPropagation(); // Prevent re-opening file dialog
+                            handleUpload();
+                        }}>
+                            Upload
+                        </Button>
+                    </div>
+                )}
             </div>
         </div>
     )

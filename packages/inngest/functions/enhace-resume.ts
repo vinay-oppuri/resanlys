@@ -13,7 +13,7 @@ export const insertJob = inngest.createFunction(
     async ({ event, step }) => {
         const { resumeId, jobId, jobTitle, jobDescription } = event.data;
 
-        // getting parsed data from resume
+        // 1. getting parsed data from resume
         const parsedData = await step.run("get-parsed-data", async () => {
             const [resume] = await db
                 .select()
@@ -28,17 +28,17 @@ export const insertJob = inngest.createFunction(
             return resume.parsedData as JSON | any;
         })
 
-        // getting json description from job description
+        // 2. getting json description from job description
         const jsonDesc = await step.run("json-description", async () => {
             return jsonDescWithGemini(jobDescription)
         })
 
-        // enhancing resume with gemini
+        // 3. enhancing resume with gemini
         const enhancedResume = await step.run("gemini-enhance", async () => {
             return enhanceResumeWithGemini(parsedData, jobTitle, jsonDesc)
         })
 
-        // saving enhanced resume
+        // 4. saving enhanced resume
         await step.run("save-jobs", async () => {
             await db
                 .update(jobs)

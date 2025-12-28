@@ -35,13 +35,26 @@ export const DashboardStats = ({ totalResumes, analyzedCount, pendingCount, isLo
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {stats.map((stat) => (
-                <div key={stat.label} className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md flex items-center gap-4 hover:bg-white/10 transition-colors">
-                    <div className={`p-3 rounded-xl ${stat.bg} ${stat.color}`}>
-                        <stat.icon className="size-6" />
+                <div key={stat.label} className="group relative overflow-hidden p-6 rounded-2xl bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-300">
+                    <div className={`absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity ${stat.color}`}>
+                        <stat.icon className="h-24 w-24 -mr-8 -mt-8" />
                     </div>
-                    <div>
-                        <p className="text-sm font-medium text-muted-foreground">{stat.label}</p>
-                        <p className="text-2xl font-bold text-foreground">{isLoading ? "-" : stat.value}</p>
+
+                    <div className="relative flex flex-col gap-4">
+                        <div className={`w-fit p-3 rounded-xl bg-linear-to-br ${stat.bg} ${stat.color} bg-opacity-10`}>
+                            <stat.icon className="size-6" />
+                        </div>
+
+                        <div>
+                            <p className="text-sm font-medium text-muted-foreground">{stat.label}</p>
+                            <h3 className="text-3xl font-bold tracking-tight text-foreground mt-1">
+                                {isLoading ? (
+                                    <span className="animate-pulse bg-muted h-8 w-16 block rounded"></span>
+                                ) : (
+                                    stat.value
+                                )}
+                            </h3>
+                        </div>
                     </div>
                 </div>
             ))}

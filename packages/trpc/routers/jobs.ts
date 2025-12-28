@@ -2,6 +2,7 @@ import z from "zod";
 import { createTRPCRouter, protectedProcedure } from "../init";
 import { db, jobs as jobsTable } from "@workspace/db"
 import { inngest } from "@workspace/inngest/client";
+import { eq } from "drizzle-orm";
 
 
 
@@ -48,5 +49,28 @@ export const jobsRouter = createTRPCRouter({
             }
 
             return job;
+        }),
+
+
+    // GET JOB ENHANCE SUGGESTIONS
+    getEnhanceSuggestions: protectedProcedure
+        .input(
+            z.object({
+                resumeId: z.string()
+            })
+        )
+        .query(async ({ input }) => {
+            const [suggestions] = await db
+                .select({ enhancedData: jobsTable.enhancedData })
+                .from(jobsTable)
+                .where(eq(jobsTable.resumeId, input.resumeId))
+                .limit(1);
+
+            if (!suggestions) {
+                throw new Error("Failed to get enhance suggestions");
+            }
+
+            return suggestions;
         })
+
 })
