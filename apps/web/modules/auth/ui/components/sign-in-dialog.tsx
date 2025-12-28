@@ -53,7 +53,7 @@ const SignInDialog = ({ title, open, onOpenChange, className }: SignInDialogProp
                     <ChevronRight className="hidden md:flex w-4 h-4 text-foreground/90 animate-pulse" />
                 </NeonButton>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-80 p-0 overflow-hidden bg-background/80 backdrop-blur-md">
+            <DialogContent className="max-w-75 md:max-w-80 p-0 overflow-hidden bg-background/80 backdrop-blur-md">
                 <div className="p-6 space-y-6">
                     <DialogHeader className="space-y-2 text-center">
                         <DialogTitle className="text-2xl font-bold tracking-tight mx-auto">Welcome back</DialogTitle>

@@ -54,35 +54,36 @@ const features = [
 
 export const Features = () => {
     return (
-        <section id="features" className="py-24 relative overflow-hidden">
+        <section id="features" className="py-12 md:py-24 relative overflow-hidden">
             <div className="absolute inset-0 bg-background/50 backdrop-blur-3xl -z-10" />
 
             <div className="container mx-auto px-6">
                 <div className="text-center max-w-2xl mx-auto mb-16">
-                    <h2 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-linear-to-b from-foreground to-foreground/70 mb-4 tracking-tight">
+                    <h2 className="text-2xl md:text-5xl font-bold bg-clip-text text-transparent bg-linear-to-b from-foreground to-foreground/70 mb-4 tracking-tight">
                         Supercharge Your Resume
                     </h2>
-                    <p className="text-lg text-muted-foreground">
+                    <p className="text-sm md:text-lg text-muted-foreground">
                         Our AI-driven tools help you stand out from the competition and land your dream job faster.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
                     {features.map((feature, index) => (
                         <div
                             key={index}
-                            className="group relative p-8 rounded-3xl border border-white/5 bg-white/5 dark:bg-white/2 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/5"
+                            className="flex flex-row md:flex-col gap-4 md:gap-0 group relative p-4 md:p-8 rounded-3xl border border-white/5 bg-white/5 dark:bg-white/2 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/5"
                         >
-                            <div className={`w-12 h-12 rounded-2xl ${feature.bg} ${feature.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                            <div className={`w-12 h-12 p-3 md:p-0 rounded-2xl ${feature.bg} ${feature.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
                                 {feature.icon}
                             </div>
-                            <h3 className="text-xl font-semibold mb-3 text-foreground group-hover:text-primary transition-colors">
-                                {feature.title}
-                            </h3>
-                            <p className="text-muted-foreground leading-relaxed">
-                                {feature.description}
-                            </p>
-
+                            <div className="flex flex-col">
+                                <h3 className="text-lg md:text-xl font-semibold mb-3 text-foreground group-hover:text-primary transition-colors">
+                                    {feature.title}
+                                </h3>
+                                <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
+                                    {feature.description}
+                                </p>
+                            </div>
                             <div className="absolute inset-0 rounded-3xl ring-1 ring-inset ring-transparent group-hover:ring-white/10 transition-all duration-300" />
                         </div>
                     ))}

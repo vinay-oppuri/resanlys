@@ -1,19 +1,15 @@
 import Link from "next/link"
 import { Github, Twitter, Linkedin } from "lucide-react"
+import Image from "next/image"
 
 export const Footer = () => {
     return (
-        <footer className="border-t border-white/5 bg-background/50 backdrop-blur-xl">
-            <div className="container mx-auto px-6 py-12">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <footer className="md:border-t border-white/5 bg-background/50 backdrop-blur-xl">
+            <div className="container mx-auto px-6 py-6 md:py-12">
+                <div className="hidden md:grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
                     <div className="col-span-1 md:col-span-1">
                         <Link href="/" className="flex items-center gap-2 mb-4">
-                            <div className="w-8 h-8 rounded-lg bg-linear-to-br from-indigo-500 via-purple-500 to-rose-500 flex items-center justify-center text-white font-bold">
-                                R
-                            </div>
-                            <span className="text-xl font-bold bg-clip-text text-transparent bg-linear-to-r from-foreground to-foreground/80">
-                                ResAnlys
-                            </span>
+                            <Image src="/logo.svg" alt="Logo" width={160} height={60} className="rounded-lg -ml-2" />
                         </Link>
                         <p className="text-muted-foreground text-sm leading-relaxed">
                             Empowering your career journey with AI-driven resume analysis and optimization.
@@ -55,7 +51,7 @@ export const Footer = () => {
                         © {new Date().getFullYear()} ResAnlys. All rights reserved.
                     </p>
                     <div className="flex items-center gap-4">
-                        <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                        <Link href="https://github.com/vinay-oppuri/resanlys" className="text-muted-foreground hover:text-foreground transition-colors">
                             <Github className="w-5 h-5" />
                         </Link>
                         <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
