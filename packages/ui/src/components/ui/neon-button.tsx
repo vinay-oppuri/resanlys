@@ -24,11 +24,11 @@ const buttonVariants = cva(
     }
 );
 
-export interface ButtonProps
+export interface NeonButtonProps
     extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> { neon?: boolean }
 
-const NeonButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const NeonButton = React.forwardRef<HTMLButtonElement, NeonButtonProps>(
     ({ className, neon = true, size, variant, children, ...props }, ref) => {
         return (
             <button

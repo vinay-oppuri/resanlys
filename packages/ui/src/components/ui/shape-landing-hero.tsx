@@ -94,7 +94,7 @@ function HeroGeometric({
     };
 
     return (
-        <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-background px-2 mt-4 md:mt-2">
+        <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-background px-2">
             <div className="absolute inset-0 bg-linear-to-br from-indigo-500/5 via-transparent to-rose-500/5 blur-3xl" />
 
             <div className="absolute inset-0 overflow-hidden">
@@ -154,7 +154,7 @@ function HeroGeometric({
                         className="inline-flex items-center gap-2 px-3 py-1 backdrop-blur-md rounded-full bg-black/3 dark:bg-white/3 border border-black/8 dark:border-white/8 mb-8 md:mb-12"
                     >
                         <Circle className="h-2 w-2 fill-rose-500/80 animate-pulse" />
-                        <span className="text-sm text-foreground/60 font-serif">
+                        <span className="text-xs md:text-sm text-foreground/60 font-serif">
                             {badge}
                         </span>
                     </motion.div>

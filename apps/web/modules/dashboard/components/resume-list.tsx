@@ -57,10 +57,7 @@ export const ResumeList = ({ resumes, isLoading }: ResumeListProps) => {
                         return (
                             <div
                                 key={resume.id}
-                                className={cn(
-                                    "group relative flex flex-row items-center justify-between px-3 py-2 md:p-4 rounded-xl border transition-all duration-300 ease-out",
-                                    "hover:shadow-lg hover:border-primary/30 hover:scale-[1.01]",
-                                )}
+                                className="group relative flex flex-row items-center justify-between px-3 py-2 md:p-4 rounded-xl border transition-all duration-300 ease-out hover:shadow-lg hover:border-primary/30 hover:scale-[1.01]"
                             >
                                 <div className="flex items-center gap-4">
                                     <div className="flex items-center justify-center bg-foreground/10 size-10 h-12 md:size-12 rounded-xl transition-all duration-300 shadow-sm">

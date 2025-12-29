@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState, useRef, useLayoutEffect, cloneElement } from 'react';
 import { cn } from "@workspace/ui/lib/utils";
 
