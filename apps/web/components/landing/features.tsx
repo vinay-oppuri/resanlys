@@ -59,7 +59,7 @@ export const Features = () => {
 
             <div className="container mx-auto px-6">
                 <div className="text-center max-w-2xl mx-auto mb-16">
-                    <h2 className="text-2xl md:text-5xl font-bold bg-clip-text text-transparent bg-linear-to-b from-foreground to-foreground/70 mb-4 tracking-tight">
+                    <h2 className="text-2xl md:text-5xl font-bold bg-clip-text text-transparent bg-linear-to-b from-foreground to-foreground/70 mb-4 tracking-tighter p-2">
                         Supercharge Your Resume
                     </h2>
                     <p className="text-sm md:text-lg text-muted-foreground">

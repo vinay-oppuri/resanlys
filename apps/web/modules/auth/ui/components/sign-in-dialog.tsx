@@ -56,7 +56,7 @@ const SignInDialog = ({
     }
 
     if (redirecting) {
-        return <LoaderOne />
+        return <div className="w-32 md:mr-4"><LoaderOne /></div>
     }
 
     return (

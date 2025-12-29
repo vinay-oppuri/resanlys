@@ -13,19 +13,19 @@ export const CtaSection = () => {
                     <div className="absolute inset-0 bg-linear-to-br from-indigo-500/5 via-transparent to-rose-500/5" />
 
                     <div className="relative z-10 max-w-3xl mx-auto">
-                        <h2 className="text-2xl md:text-5xl font-bold mb-6 tracking-tight">
+                        <h2 className="text-xl md:text-4xl font-bold mb-6 tracking-tight">
                             Ready to Transform Your Resume?
                         </h2>
-                        <p className="text-md md:text-lg text-muted-foreground mb-10 leading-relaxed">
+                        <p className="text-sm md:text-lg text-muted-foreground mb-10 leading-relaxed">
                             Join thousands of job seekers who have successfully landed interviews at top companies using ResAnlys.
                         </p>
 
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <SignInDialog title="Get Started for Free" className="h-12 px-8 text-base bg-primary/10 hover:bg-primary/20 text-primary border-primary/20" />
+                        <div className="flex flex-col md:flex-row items-center justify-center gap-4 not-md:w-full mx-auto">
+                            <SignInDialog title="Get Started for Free" className="h-10 md:h-12 px-8 text-sm md:text-md bg-primary/10 hover:bg-primary/20 text-primary border-primary/20 not-md:w-full justify-center" />
 
                             <NeonButton
                                 variant="ghost"
-                                className="h-12 px-8 text-base rounded-full border border-white/10 hover:bg-white/5"
+                                className="font-serif h-10 md:h-12 px-8 text-sm md:text-md rounded-full border border-white/10 hover:bg-white/5 not-md:w-full justify-center"
                             >
                                 View Sample Report
                             </NeonButton>

@@ -24,18 +24,18 @@ export const HomeView = () => {
       <Header />
       <HeroGeometric
         badge="AI-Powered Career Growth"
-        title1="Upload your resume"
-        title2="Analyze it with AI"
+        title1="Upload resume Analyze it"
+        title2="Get Suggestions"
         description="Unlock your career potential with our advanced AI. Analyze your resume, match with dream jobs, and get personalized improvement tips to stand out from the crowd."
       >
         <div className="flex flex-col md:flex-row items-center gap-4 px-4 mt-8 not-md:w-full">
-          <SignInDialog title="Analyse Resume" className="h-10 md:h-14 px-8 bg-blue-500/20 backdrop-blur-sm rounded-full not-md:w-full justify-center" />
+          <SignInDialog title="Analyse Your Resume" className="h-10 px-8 bg-blue-500/20 backdrop-blur-sm rounded-lg not-md:w-full justify-center" />
 
           <NeonButton
             size="lg"
-            className="rounded-full not-md:w-full h-10 md:h-14 px-8 text-sm md:text-base text-foreground/90 font-serif cursor-pointer hover:bg-white/5 border border-transparent hover:border-white/10"
+            className="rounded-lg not-md:w-full h-10 px-8 flex items-center justify-center text-sm md:text-base text-foreground/90 font-serif cursor-pointer hover:bg-white/5 border border-transparent hover:border-white/10"
           >
-            View Demo
+            See how it works
           </NeonButton>
         </div>
       </HeroGeometric>

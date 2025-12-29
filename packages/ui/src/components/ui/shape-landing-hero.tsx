@@ -144,8 +144,8 @@ function HeroGeometric({
                 />
             </div>
 
-            <div className="relative z-10 container mx-auto px-4 md:px-6">
-                <div className="max-w-3xl mx-auto text-center">
+            <div className="relative z-10 container mx-auto px-4">
+                <div className="max-w-4xl mx-auto text-center">
                     <motion.div
                         custom={0}
                         variants={fadeUpVariants}
@@ -165,13 +165,13 @@ function HeroGeometric({
                         initial="hidden"
                         animate="visible"
                     >
-                        <h1 className="flex flex-col text-4xl md:text-7xl font-bold mb-6 md:mb-8 tracking-tighter">
-                            <div className="bg-clip-text text-transparent bg-linear-to-b from-foreground to-foreground/80 p-1 md:p-3">
+                        <h1 className="flex flex-col text-4xl md:text-7xl font-extrabold mb-6 md:mb-8 tracking-tighter">
+                            <div className="bg-clip-text text-transparent bg-linear-to-b from-foreground to-foreground/80 p-1 md:p-2.5">
                                 {title1}
                             </div>
                             <div
                                 className={cn(
-                                    "bg-clip-text text-transparent bg-linear-to-r from-indigo-300 via-foreground/90 to-rose-300 p-1 md:p-3"
+                                    "bg-clip-text text-transparent bg-linear-to-r from-indigo-300 via-foreground/90 to-rose-300 p-1 md:p-2.5"
                                 )}
                             >
                                 {title2}
@@ -185,7 +185,7 @@ function HeroGeometric({
                         initial="hidden"
                         animate="visible"
                     >
-                        <p className="text-sm md:text-base text-muted-foreground mb-8 leading-relaxed font-light max-w-xl mx-auto px-2 md:px-4">
+                        <p className="text-sm md:text-lg text-muted-foreground mb-4 leading-relaxed font-light max-w-xl mx-auto px-2 md:px-4">
                             {description}
                         </p>
                     </motion.div>
