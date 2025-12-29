@@ -20,7 +20,7 @@ export const DashboardView = () => {
     const { data: analyzedResumesData } = useQuery(trpc.resume.getAnalyzedResumes.queryOptions())
 
     return (
-        <div className="min-h-screen w-full bg-background/50">
+        <div className="min-h-screen w-full bg-background/50 pb-20">
             <div className="max-w-7xl mx-auto p-4 md:p-8 space-y-5 md:space-y-10">
 
                 {/* Header Section */}

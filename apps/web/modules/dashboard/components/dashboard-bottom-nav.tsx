@@ -4,7 +4,6 @@ import { LimelightNav } from "@workspace/ui/components"
 import { Briefcase, FileText, Home, LayoutDashboard } from "lucide-react"
 import { useRouter, usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
-import { cn } from "@workspace/ui/lib/utils"
 
 export function DashboardBottomNav() {
     const router = useRouter()
@@ -19,7 +18,7 @@ export function DashboardBottomNav() {
         {
             id: "home",
             label: "Home",
-            href: "/",
+            href: "/dashboard",
             icon: <Home />,
         },
         {
@@ -55,14 +54,11 @@ export function DashboardBottomNav() {
 
     return (
         <div className="flex md:hidden fixed bottom-2 left-1/2 z-50 -translate-x-1/2 transition-all duration-300 animate-in fade-in slide-in-from-bottom-4">
-            <div className="group relative rounded-full p-1 bg-background/60 backdrop-blur-xl border border-white/10 shadow-2xl dark:shadow-black/50 transition-all hover:scale-105 hover:bg-background/80">
-                {/* Glow effect behind */}
-                <div className="absolute -inset-1 rounded-full bg-linear-to-r from-primary/20 via-purple-500/20 to-primary/20 opacity-0 blur-xl transition-opacity group-hover:opacity-100" />
-
+            <div className="group relative rounded-full px-4 bg-background/60 backdrop-blur-xl border border-foreground/10">
                 <LimelightNav
                     defaultActiveIndex={activeIndex !== -1 ? activeIndex : 0}
-                    className="relative rounded-full w-full border-none bg-transparent shadow-none px-2 h-14"
-                    iconContainerClassName="p-2 w-16"
+                    className="relative rounded-full w-full border-none bg-transparent shadow-none px-2"
+                    iconContainerClassName="w-16"
                     iconClassName="w-5 h-5"
                     items={navItems.map((item) => ({
                         id: item.id,

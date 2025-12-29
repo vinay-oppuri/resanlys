@@ -50,12 +50,12 @@ const UserProfile = () => {
                 </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-                className="w-64 bg-black/40 backdrop-blur-xl border-white/10 p-2 shadow-2xl"
+                className="w-64 bg-background/40 backdrop-blur-xl border-foreground/10 p-2 shadow-2xl"
                 align="end"
                 sideOffset={8}
             >
-                <div className="flex items-center gap-3 p-2 mb-1 rounded-xl bg-white/5 border border-white/5">
-                    <Avatar className="size-10 border border-white/10">
+                <div className="flex items-center gap-3 p-2 mb-1 rounded-xl bg-background/5 border border-background/5">
+                    <Avatar className="size-10 border border-background/10">
                         <AvatarImage src={user?.image || undefined} alt={user?.name || "User"} />
                         <AvatarFallback className="bg-primary/10 text-primary text-sm font-medium">
                             {initials}
@@ -79,28 +79,28 @@ const UserProfile = () => {
                     <span className="text-[10px] text-primary/70 font-medium">Upgrade</span>
                 </div>
 
-                <DropdownMenuSeparator className="bg-white/5 my-1" />
+                <DropdownMenuSeparator className="bg-background/5 my-1" />
 
                 <DropdownMenuGroup>
-                    <DropdownMenuItem className="gap-3 p-2.5 focus:bg-white/5 focus:text-primary transition-colors cursor-pointer rounded-lg">
+                    <DropdownMenuItem className="gap-3 p-2.5 focus:bg-background/5 focus:text-primary transition-colors cursor-pointer rounded-lg">
                         <User className="size-4" />
                         <span>Profile</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="gap-3 p-2.5 focus:bg-white/5 focus:text-primary transition-colors cursor-pointer rounded-lg">
+                    <DropdownMenuItem className="gap-3 p-2.5 focus:bg-background/5 focus:text-primary transition-colors cursor-pointer rounded-lg">
                         <Monitor className="size-4" />
                         <span>Dashboard</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="gap-3 p-2.5 focus:bg-white/5 focus:text-primary transition-colors cursor-pointer rounded-lg">
+                    <DropdownMenuItem className="gap-3 p-2.5 focus:bg-background/5 focus:text-primary transition-colors cursor-pointer rounded-lg">
                         <CreditCard className="size-4" />
                         <span>Billing & Plans</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="gap-3 p-2.5 focus:bg-white/5 focus:text-primary transition-colors cursor-pointer rounded-lg">
+                    <DropdownMenuItem className="gap-3 p-2.5 focus:bg-background/5 focus:text-primary transition-colors cursor-pointer rounded-lg">
                         <Settings className="size-4" />
                         <span>Settings</span>
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
 
-                <DropdownMenuSeparator className="bg-white/5 my-1" />
+                <DropdownMenuSeparator className="bg-background/5 my-1" />
 
                 <DropdownMenuItem
                     onClick={onSignOut}
