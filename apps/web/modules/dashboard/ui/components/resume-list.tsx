@@ -62,15 +62,15 @@ export const ResumeList = ({ resumes, isLoading }: ResumeListProps) => {
                                     "hover:shadow-lg hover:border-primary/30 hover:scale-[1.01]",
                                 )}
                             >
-                                <div className="flex items-center gap-4 mb-4 sm:mb-0">
-                                    <div className="flex items-center justify-center bg-foreground/10 size-10 md:size-12 rounded-xl transition-all duration-300 shadow-sm">
+                                <div className="flex items-center gap-4">
+                                    <div className="flex items-center justify-center bg-foreground/10 size-10 h-12 md:size-12 rounded-xl transition-all duration-300 shadow-sm">
                                         <FileText className="size-5 md:size-6" />
                                     </div>
-                                    <div className="space-y-1">
-                                        <p className="font-semibold transition-colors line-clamp-1 text-sm md:text-base tracking-tight">
+                                    <div className="space-y-2 md:space-y-1">
+                                        <p className="font-semibold transition-colors line-clamp-1 text-md md:text-base tracking-tight">
                                             {resume.fileName}
                                         </p>
-                                        <div className="flex items-center gap-3 text-[9px] md:text-xs text-muted-foreground font-medium">
+                                        <div className="flex items-center gap-3 text-xs text-muted-foreground font-medium">
                                             <span className="flex items-center gap-1.5 bg-muted/50 px-2 py-0.5 rounded-md">
                                                 <Clock className="size-3" />
                                                 {new Date(resume.createdAt).toLocaleDateString(undefined, {
@@ -83,9 +83,9 @@ export const ResumeList = ({ resumes, isLoading }: ResumeListProps) => {
                                     </div>
                                 </div>
 
-                                <div className="flex flex-col-reverse sm:flex-row items-center gap-3 justify-end">
+                                <div className="flex flex-col-reverse sm:flex-row items-center gap-2 md:gap-3 justify-end">
                                     {resume.status === 'processing' && (
-                                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-medium border border-amber-500/20 shadow-sm animate-pulse">
+                                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 text-[10px] md:text-xs font-medium border border-amber-500/20 shadow-sm animate-pulse">
                                             <Loader2 className="size-2 md:size-3.5 animate-spin" />
                                             <span>Processing</span>
                                         </span>
@@ -95,10 +95,10 @@ export const ResumeList = ({ resumes, isLoading }: ResumeListProps) => {
                                         <DialogTrigger asChild>
                                             <Button
                                                 variant="outline"
-                                                className="text-xs rounded-full backdrop-blur-sm transition-all hover:bg-primary/5 hover:text-primary hover:border-primary/30"
+                                                className="flex items-center gap-1 text-[10px] md:text-xs text-foreground/90 hover:bg-blue-500/20! backdrop-blur-sm transition-all"
                                                 onClick={() => handleGetSuggestions(resume.id)}
                                             >
-                                                Get Suggestions
+                                                <Sparkles className="size-3" /> Get Suggestions
                                             </Button>
                                         </DialogTrigger>
                                         <DialogContent className="w-[95vw] max-w-[95vw] md:w-full md:max-w-5xl lg:max-w-6xl h-[90vh] md:h-[85vh] p-0 gap-0 overflow-hidden flex flex-col border-none shadow-2xl bg-background/95 backdrop-blur-xl">
@@ -127,20 +127,20 @@ export const ResumeList = ({ resumes, isLoading }: ResumeListProps) => {
                                     <Badge
                                         variant="outline"
                                         className={cn(
-                                            "capitalize px-2.5 py-1 flex items-center justify-center gap-1 shadow-sm border-0",
+                                            "capitalize px-2.5 py-1 flex items-center justify-center gap-1 shadow-sm border text-[10px] md:text-xs",
                                             resume.status === 'completed' ? "bg-green-500/10 text-green-600 dark:text-green-400" :
                                                 resume.status === 'failed' ? "bg-red-500/10 text-red-600 dark:text-red-400" :
                                                     "bg-primary/5 text-primary"
                                         )}
                                     >
                                         {resume.status === 'processing' && (
-                                            <Loader2 className="size-3 animate-spin" />
+                                            <Loader2 className="size-2 md:size-3 animate-spin" />
                                         )}
                                         {resume.status === 'failed' && (
-                                            <X className="size-3" />
+                                            <X className="size-2 md:size-3" />
                                         )}
                                         {resume.status === 'completed' && (
-                                            <Check className="size-3" />
+                                            <Check className="size-2 md:size-3" />
                                         )}
                                         {resume.status}
                                     </Badge>

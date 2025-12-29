@@ -24,10 +24,10 @@ export const Header = () => {
     if (!mounted) return null
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between bg-transparent backdrop-blur-md px-3 md:px-18 py-4">
+        <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between bg-transparent backdrop-blur-md px-2 md:px-18 py-4">
             {/* Logo */}
             <Link href="/" className="flex items-center z-50">
-                <Logo className="drop-shadow-sm h-12 md:h-14 w-auto" width={180} height={45} />
+                <Logo className="drop-shadow-sm h-11.5 md:h-14 w-auto" width={180} height={45} />
             </Link>
 
             {/* Desktop Nav */}
