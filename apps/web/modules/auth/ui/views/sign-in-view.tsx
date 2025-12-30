@@ -73,7 +73,7 @@ export const SignInView = () => {
     }
 
     return (
-        <div className="flex min-h-150 w-full max-w-250 overflow-hidden rounded-2xl bg-card shadow-2xl ring-1 ring-border/50 mx-auto">
+        <div className="flex min-h-150 w-full max-w-4xl overflow-hidden rounded-2xl bg-card shadow-2xl ring-1 ring-border/50 mx-auto">
             {/* Form Side */}
             <div className="flex w-full flex-col justify-center p-6 md:w-1/2 md:p-12 relative z-10 bg-card">
                 <div className="mx-auto flex w-full max-w-sm flex-col gap-6">
@@ -207,17 +207,12 @@ export const SignInView = () => {
                 <div className="absolute top-[60%] right-[10%] h-32 w-32 rounded-full bg-violet-500/30 blur-3xl" />
 
                 <div className="relative z-10 flex flex-col items-center gap-8 p-10 text-center">
-                    <Link href="/" className="rounded-2xl bg-white/10 dark:bg-black/10 p-6 backdrop-blur-xl ring-1 ring-black/5 dark:ring-white/10 shadow-2xl">
-                        <Image src="/logo.svg" alt="Logo" width={100} height={100} className="drop-shadow-lg animate-pulse" />
+                    <Link href="/">
+                        <Image src="/logo.svg" alt="Logo" width={300} height={300} className="drop-shadow-lg" />
                     </Link>
-                    <div className="space-y-3 max-w-sm">
-                        <h2 className="text-3xl font-bold tracking-tight text-foreground/90 drop-shadow-sm">
-                            Resanlys
-                        </h2>
-                        <p className="text-muted-foreground text-lg">
-                            The intelligent platform for your Resume Analysis needs.
-                        </p>
-                    </div>
+                    <p className="text-muted-foreground text-lg">
+                        The intelligent platform for your Resume Analysis needs.
+                    </p>
                 </div>
             </div>
         </div>

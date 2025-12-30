@@ -24,14 +24,14 @@ export const Header = () => {
     if (!mounted) return null
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between bg-transparent backdrop-blur-md px-2 md:px-18 py-4">
+        <header className="fixed top-0 left-0 right-0 z-50 grid grid-cols-2 md:grid-cols-3 items-center bg-transparent backdrop-blur-md py-4 px-4 md:px-8">
             {/* Logo */}
-            <Link href="/" className="flex items-center z-50">
+            <Link href="/" className="flex items-center justify-self-start z-50">
                 <Logo className="drop-shadow-sm h-11.5 md:h-14 w-auto" width={180} height={45} />
             </Link>
 
             {/* Desktop Nav */}
-            <nav className="hidden md:flex items-center gap-1 p-1 bg-secondary/50 backdrop-blur-sm border border-white/5 rounded-full px-4">
+            <nav className="hidden md:flex items-center justify-self-center gap-1 p-1 bg-secondary/50 backdrop-blur-sm border border-white/5 rounded-full px-4">
                 {navItems.map((item) => (
                     <Link
                         key={item.label}
@@ -45,10 +45,9 @@ export const Header = () => {
             </nav>
 
             {/* Actions */}
-            <div className="flex items-center justify-center gap-1">
-                <div className="flex items-center justify-center gap-1 md:gap-3">
-                    <SignInDialog title="Get Started" className="hidden md:flex px-6 py-2" />
-                    <SignInDialog title="Get Started" className="flex md:hidden px-4 py-2 bg-blue-500/20 backdrop-blur-sm rounded-lg" />
+            <div className="flex items-center gap-1 justify-self-end">
+                <div className="flex items-center gap-1 md:gap-3">
+                    <SignInDialog title="Get Started" className="px-4 py-2 bg-blue-500/20 backdrop-blur-sm rounded-lg" />
                     <Button
                         variant="ghost"
                         size="icon"

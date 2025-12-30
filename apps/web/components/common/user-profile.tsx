@@ -34,19 +34,11 @@ const UserProfile = () => {
         }
     }
 
-    // Get initials for fallback
-    const initials = user?.name
-        ? user.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2)
-        : 'U';
-
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>
                 <Avatar className="size-9 border-2 border-foreground/20 transition-all duration-300 group-hover:ring-primary/20 group-hover:scale-105">
-                    <AvatarImage src={user?.image || undefined} alt={user?.name || "User"} />
-                    <AvatarFallback className="bg-linear-to-br from-primary/10 to-primary/5 text-xs font-semibold text-primary">
-                        {initials}
-                    </AvatarFallback>
+                    <AvatarImage src={user?.image || './avatar-dark.png'} alt={user?.name || "User"} />
                 </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent
@@ -56,10 +48,7 @@ const UserProfile = () => {
             >
                 <div className="flex items-center gap-3 p-2 mb-1 rounded-xl bg-background/5 border border-background/5">
                     <Avatar className="size-10 border border-background/10">
-                        <AvatarImage src={user?.image || undefined} alt={user?.name || "User"} />
-                        <AvatarFallback className="bg-primary/10 text-primary text-sm font-medium">
-                            {initials}
-                        </AvatarFallback>
+                        <AvatarImage src={user?.image || './avatar-dark.png'} alt={user?.name || "User"} />
                     </Avatar>
                     <div className="flex flex-col overflow-hidden">
                         <span className="text-sm font-medium truncate text-foreground/90">

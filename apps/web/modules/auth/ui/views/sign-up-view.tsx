@@ -13,7 +13,6 @@ import { signUp, signIn } from "@workspace/auth/client"
 
 import { Input } from "@workspace/ui/components/input"
 import { Button } from "@workspace/ui/components/button"
-import { Card, CardContent } from "@workspace/ui/components/card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@workspace/ui/components/form"
 import { Alert, AlertTitle } from "@workspace/ui/components/alert"
 import LoadingState from "@/components/states/loading-state"
@@ -254,17 +253,12 @@ export const SignUpView = () => {
                 <div className="absolute top-[60%] right-[10%] h-32 w-32 rounded-full bg-violet-500/30 blur-3xl" />
 
                 <div className="relative z-10 flex flex-col items-center gap-8 p-10 text-center">
-                    <Link href="/" className="rounded-2xl bg-white/10 dark:bg-black/10 p-6 backdrop-blur-xl ring-1 ring-black/5 dark:ring-white/10 shadow-2xl">
-                        <Image src="/logo.svg" alt="Logo" width={100} height={100} className="drop-shadow-lg animate-pulse" />
+                    <Link href="/">
+                        <Image src="/logo.svg" alt="Logo" width={300} height={300} className="drop-shadow-lg" />
                     </Link>
-                    <div className="space-y-3 max-w-sm">
-                        <h2 className="text-3xl font-bold tracking-tight text-foreground/90 drop-shadow-sm">
-                            Join Resanlys
-                        </h2>
-                        <p className="text-muted-foreground text-lg">
-                            Start analyzing your resumes with the power of AI today.
-                        </p>
-                    </div>
+                    <p className="text-muted-foreground text-lg">
+                        Start analyzing your resumes with the power of AI today.
+                    </p>
                 </div>
             </div>
         </div>

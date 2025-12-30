@@ -75,13 +75,13 @@ const SignInDialog = ({
                 </NeonButton>
             </DialogTrigger>
 
-            <DialogContent className="max-w-80 p-0 py-4 bg-background/80 backdrop-blur-md">
+            <DialogContent className="max-w-80! p-0 py-4 bg-background/80 backdrop-blur-md">
                 <div className="p-6 space-y-6">
                     <DialogHeader className="text-center">
-                        <DialogTitle className="text-2xl font-bold">
+                        <DialogTitle className="text-2xl font-bold text-center">
                             Welcome back
                         </DialogTitle>
-                        <DialogDescription>
+                        <DialogDescription className="text-center">
                             Sign in to access your dashboard
                         </DialogDescription>
                     </DialogHeader>

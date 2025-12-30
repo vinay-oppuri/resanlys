@@ -59,7 +59,7 @@ export const ResumeUpload = () => {
     return (
         <div className="relative group">
             <div className={`
-                relative flex flex-row md:flex-col items-center justify-center p-4 md:p-12 text-center
+                relative flex flex-col items-center justify-center p-4 md:p-12 text-center
                 border-2 border-dashed rounded-2xl transition-all duration-300 ease-in-out
                 ${uploading
                     ? 'border-primary/50 bg-primary/5 cursor-wait'
@@ -69,9 +69,9 @@ export const ResumeUpload = () => {
                 <input
                     type="file"
                     accept=".pdf"
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed z-10"
                     onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-                    disabled={uploading}
+                    disabled={uploading || !!file}
                 />
 
                 <div className={`
@@ -103,10 +103,10 @@ export const ResumeUpload = () => {
                 </div>
 
                 {file && !uploading && (
-                    <div className="mt-6 flex items-center gap-2 px-4 py-2 bg-background rounded-full border shadow-sm animate-in fade-in slide-in-from-bottom-2">
-                        <span className="text-sm font-medium truncate max-w-[200px]">{file.name}</span>
-                        <Button size="sm" onClick={(e) => {
-                            e.stopPropagation(); // Prevent re-opening file dialog
+                    <div className="mt-3 md:mt-6 flex items-center justify-between min-w-75 z-100 gap-4 px-2 py-2 pl-4 bg-background rounded-full border shadow-sm animate-in fade-in slide-in-from-bottom-2">
+                        <span className="text-sm font-medium truncate max-w-50">{file.name}</span>
+                        <Button size="sm" className="rounded-full px-4 ring-2 ring-primary/20" onClick={(e) => {
+                            e.stopPropagation();
                             handleUpload();
                         }}>
                             Upload
