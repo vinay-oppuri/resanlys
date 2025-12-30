@@ -54,6 +54,8 @@ export const resumes = pgTable("resumes", {
   fileSize: integer("file_size"),
   rawText: text("raw_text"),
   parsedData: jsonb("parsed_data"),
+  latexSource: text("latex_source"),
+  compiledPdfUrl: text("compiled_pdf_url"),
   status: text("status").default("uploaded"),
   createdAt: timestamp("created_at").notNull(),
   updatedAt: timestamp("updated_at"),

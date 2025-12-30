@@ -65,6 +65,8 @@ export const resumeRouter = createTRPCRouter({
                     rawText: resumes.rawText,
                     status: resumes.status,
                     createdAt: resumes.createdAt,
+                    latexSource: resumes.latexSource,
+                    compiledPdfUrl: resumes.compiledPdfUrl,
                     hasEnhancedData: sql<boolean>`EXISTS (SELECT 1 FROM ${jobs} WHERE ${jobs.resumeId} = ${resumes.id} AND ${jobs.enhancedData} IS NOT NULL)`
                 })
                 .from(resumes)
@@ -98,6 +100,28 @@ export const resumeRouter = createTRPCRouter({
                 .orderBy(desc(resumes.createdAt));
 
             return { getAnalyzedResumes }
-        })
+            return { getAnalyzedResumes }
+        }),
+
+    // UPDATE RESUME SOURCE
+    updateSource: protectedProcedure
+        .input(
+            z.object({
+                id: z.string(),
+                latexSource: z.string(),
+            })
+        )
+        .mutation(async ({ ctx, input }) => {
+            const [updatedResume] = await ctx.db
+                .update(resumes)
+                .set({
+                    latexSource: input.latexSource,
+                    updatedAt: new Date(),
+                })
+                .where(and(eq(resumes.id, input.id), eq(resumes.userId, ctx.auth.session.userId)))
+                .returning();
+
+            return updatedResume;
+        }),
 
 })

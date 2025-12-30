@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useMutation } from "@tanstack/react-query"
 import { Upload, Plus, Loader2 } from "lucide-react"
 import { Button } from "@workspace/ui/components/button"
+import TextType from "@workspace/ui/components/TextType"
 import { toast } from "sonner"
 import { useTRPC } from "@workspace/trpc/client"
 
@@ -81,9 +82,18 @@ export const ResumeUpload = () => {
                 </div>
 
                 <div className="space-y-2 max-w-sm mx-auto">
-                    <h3 className="text-xl font-semibold tracking-tight">
-                        {uploading ? "Uploading Resume..." : "Upload Resume"}
-                    </h3>
+                    <div className="h-8 flex items-center justify-center">
+                        <TextType
+                            key={uploading ? 'uploading' : 'idle'}
+                            text={uploading ? ["Uploading Resume..."] : ["Upload Resume", "Analyze with AI", "Get Instant Feedback"]}
+                            loop={true}
+                            cursorCharacter="|"
+                            typingSpeed={50}
+                            deletingSpeed={30}
+                            pauseDuration={2000}
+                            className="text-xl font-semibold tracking-tight"
+                        />
+                    </div>
                     <p className="text-sm text-muted-foreground">
                         {uploading
                             ? "Please wait while we process your file."

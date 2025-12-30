@@ -54,7 +54,7 @@ export function DashboardBottomNav() {
 
     return (
         <div className="flex md:hidden fixed bottom-2 left-1/2 z-50 -translate-x-1/2 transition-all duration-300 animate-in fade-in slide-in-from-bottom-4">
-            <div className="group relative rounded-full px-4 bg-background/60 backdrop-blur-xl border border-foreground/10">
+            <div className="group relative rounded-full px-2 bg-background/60 backdrop-blur-xl border border-foreground/10">
                 <LimelightNav
                     defaultActiveIndex={activeIndex !== -1 ? activeIndex : 0}
                     className="relative rounded-full w-full border-none bg-transparent shadow-none px-2"
