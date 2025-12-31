@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import { useTRPC } from "@workspace/trpc/client"
 import { useQuery } from "@tanstack/react-query"
 import { DashboardStats } from "../components/dashboard-stats"
@@ -10,7 +9,6 @@ import { ResumeList } from "../components/resume-list"
 
 export const DashboardView = () => {
     const trpc = useTRPC()
-    const [selectedResumeId, setSelectedResumeId] = useState<string>("")
 
     const { data: resumesData, isLoading } = useQuery(trpc.resume.getUserResumes.queryOptions())
     const resumes = resumesData?.getResumes.slice(0, 2) || []
@@ -53,11 +51,7 @@ export const DashboardView = () => {
 
                     {/* Right Column: Job Context & Actions */}
                     <div className="lg:col-span-5 sticky top-8">
-                        <ResumeEnhance
-                            resumes={resumes}
-                            selectedResumeId={selectedResumeId}
-                            onResumeSelect={setSelectedResumeId}
-                        />
+                        <ResumeEnhance resumes={resumes} />
                     </div>
                 </div>
             </div>

@@ -8,12 +8,11 @@ import LoaderOne from "@workspace/ui/components/ui/loader-one"
 import { useTRPC } from "@workspace/trpc/client"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { toast } from "sonner"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@workspace/ui/components"
 
 
 interface ResumeEnhanceProps {
     resumes: any[]
-    selectedResumeId?: string
-    onResumeSelect?: (id: string) => void
 }
 
 export interface EnhancedData {
@@ -24,15 +23,12 @@ export interface EnhancedData {
     overall_match_feedback: string;
 }
 
-export const ResumeEnhance = ({ resumes, selectedResumeId: propSelectedId }: ResumeEnhanceProps) => {
+export const ResumeEnhance = ({ resumes }: ResumeEnhanceProps) => {
     const trpc = useTRPC()
     const [isMounted, setIsMounted] = useState(false)
     const [jobTitle, setJobTitle] = useState<string>("")
     const [jobDescription, setJobDescription] = useState<string>("")
-    const [internalSelectedId, setInternalSelectedId] = useState<string>("")
-
-    // Use prop if available, otherwise internal state
-    const selectedResumeId = propSelectedId !== undefined ? propSelectedId : internalSelectedId
+    const [selectedResumeId, setSelectedResumeId] = useState<string>("")
 
     useEffect(() => {
         setIsMounted(true)
@@ -66,13 +62,28 @@ export const ResumeEnhance = ({ resumes, selectedResumeId: propSelectedId }: Res
     }
 
     return (
-        <div className="p-4 md:p-8 rounded-xl bg-card/60 backdrop-blur-xl border border-border/40 shadow-2xl space-y-8 animate-in slide-in-from-right-8 duration-700 ease-out ring-1 ring-white/10">
+        <div className="p-4 md:p-6 rounded-xl bg-card/60 backdrop-blur-xl border border-border/40 shadow-2xl space-y-8 animate-in slide-in-from-right-8 duration-700 ease-out ring-1 ring-white/10">
             <div className="space-y-1.5">
                 <h2 className="text-xl md:text-2xl font-bold tracking-tight bg-linear-to-br from-foreground to-muted-foreground bg-clip-text text-transparent">Job Details</h2>
                 <p className="text-muted-foreground text-sm font-medium">Paste the job description you are targeting to get tailored insights.</p>
             </div>
 
             <div className="space-y-6">
+                <div className="flex flex-col gap-2">
+                    <label className="text-sm font-semibold text-foreground/80 ml-1">Select Resume</label>
+                    <Select onValueChange={(value) => setSelectedResumeId(value)}>
+                        <SelectTrigger className="h-10 w-full">
+                            <SelectValue placeholder=".pdf, .doc, .docx" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {resumes.map((resume) => (
+                                <SelectItem key={resume.id} value={resume.id}>
+                                    {resume.fileName}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
                 <div className="flex flex-col gap-2">
                     <label className="text-sm font-semibold text-foreground/80 ml-1">Job Title</label>
                     <Input

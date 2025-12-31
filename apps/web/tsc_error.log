@@ -1,5 +1,0 @@
-modules/dashboard/ui/components/resume-list.tsx(2,81): error TS2300: Duplicate identifier 'Check'.
-modules/dashboard/ui/components/resume-list.tsx(2,88): error TS2300: Duplicate identifier 'Check'.
-modules/dashboard/ui/views/dashboard-view.tsx(51,29): error TS2322: Type '{ resumes: { id: string; createdAt: string; userId: string | null; fileName: string; fileType: string; fileSize: number | null; rawText: string | null; status: string | null; hasEnhancedData: boolean; }[]; isLoading: boolean; onGenerateInsights: (id: any) => void; }' is not assignable to type 'IntrinsicAttributes & ResumeListProps'.
-  Property 'onGenerateInsights' does not exist on type 'IntrinsicAttributes & ResumeListProps'.
-modules/dashboard/ui/views/dashboard-view.tsx(51,50): error TS7006: Parameter 'id' implicitly has an 'any' type.
