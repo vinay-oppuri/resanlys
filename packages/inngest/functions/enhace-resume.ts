@@ -1,5 +1,5 @@
 import { db, jobs, resumes } from "@workspace/db";
-import { enhanceResumeWithGemini, jsonDescWithGemini } from "../ai/parser";
+import { enhanceResumeWithGemini, jsonDescWithGemini, jobQueryGenerator } from "../ai/parser";
 import { inngest } from "../client";
 import { eq } from "drizzle-orm";
 
@@ -38,13 +38,19 @@ export const insertJob = inngest.createFunction(
             return enhanceResumeWithGemini(parsedData, jobTitle, jsonDesc)
         })
 
-        // 4. saving enhanced resume
+        // 4. generate job queries
+        const jobQueries = await step.run("generate-queries", async () => {
+            return jobQueryGenerator(parsedData, jobTitle, jsonDesc)
+        })
+
+        // 5. saving enhanced resume and queries
         await step.run("save-jobs", async () => {
             await db
                 .update(jobs)
                 .set({
                     parsedData: jsonDesc,
                     enhancedData: enhancedResume,
+                    searchQueries: jobQueries, // Save generated queries
                 })
                 .where(eq(jobs.id, jobId));
         })

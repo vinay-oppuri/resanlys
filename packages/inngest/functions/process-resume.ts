@@ -1,7 +1,7 @@
 import { inngest } from "../client";
 import { db, resumes } from "@workspace/db";
 import { eq } from "drizzle-orm";
-import { parseResumeWithGemini } from "../ai/parser";
+import { latexGenerator, parseResumeWithGemini } from "../ai/parser";
 
 export const processResume = inngest.createFunction(
     {
@@ -25,13 +25,19 @@ export const processResume = inngest.createFunction(
             return parseResumeWithGemini(rawText);
         });
 
-        // 3 Save result
+        // 3 Gemini latex generation
+        const latexSource = await step.run("gemini-latex", async () => {
+            return latexGenerator(parsedData);
+        });
+
+        // 4 Save result
         await step.run("save-result", async () => {
             await db
                 .update(resumes)
                 .set({
-                    parsedData,
-                    status: "completed",
+                    parsedData: parsedData,
+                    latexSource: latexSource,
+                    status: "uploaded",
                     updatedAt: new Date(),
                 })
                 .where(eq(resumes.id, resumeId));

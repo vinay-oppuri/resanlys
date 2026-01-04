@@ -2,9 +2,7 @@ import z from "zod";
 import { createTRPCRouter, protectedProcedure } from "../init";
 import { db, jobs as jobsTable } from "@workspace/db"
 import { inngest } from "@workspace/inngest/client";
-import { eq } from "drizzle-orm";
-
-
+import { eq, desc } from "drizzle-orm";
 
 export const jobsRouter = createTRPCRouter({
 
@@ -71,6 +69,19 @@ export const jobsRouter = createTRPCRouter({
             }
 
             return suggestions;
+        }),
+
+    // GET LATEST JOB
+    getLatestJob: protectedProcedure
+        .query(async ({ ctx }) => {
+            const [job] = await ctx.db
+                .select()
+                .from(jobsTable)
+                .where(eq(jobsTable.userId, ctx.auth.session.userId))
+                .orderBy(desc(jobsTable.createdAt))
+                .limit(1);
+
+            return job;
         })
 
 })

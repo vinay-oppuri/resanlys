@@ -1,128 +1,139 @@
-
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Editor from "@monaco-editor/react";
 import { Button } from "@workspace/ui/components/button";
 import { toast } from "sonner";
 import { Loader2, Save, Play } from "lucide-react";
 
 interface EditorViewProps {
-    resumeId: string;
-    initialSource?: string | null;
-    onSave: (source: string) => Promise<void>;
+  resumeId: string;
+  initialSource?: string | null;
+  onSave: (source: string) => Promise<void>;
 }
 
-export function EditorView({ resumeId, initialSource, onSave }: EditorViewProps) {
-    const [source, setSource] = useState(initialSource || "% Write your LaTeX here...");
-    const [pdfUrl, setPdfUrl] = useState<string | null>(null);
-    const [isCompiling, setIsCompiling] = useState(false);
-    const [isSaving, setIsSaving] = useState(false);
+export function EditorView({
+  resumeId,
+  initialSource,
+  onSave,
+}: EditorViewProps) {
+  const [source, setSource] = useState(
+    initialSource ?? "% Write your LaTeX here..."
+  );
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [isCompiling, setIsCompiling] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
-    // Auto-compile initial source if provided
-    useEffect(() => {
-        if (initialSource) {
-            handleCompile();
-        }
-    }, []);
+  const lastUrlRef = useRef<string | null>(null);
 
-    const handleEditorChange = (value: string | undefined) => {
-        setSource(value || "");
+  useEffect(() => {
+    if (initialSource) {
+      setSource(initialSource);
+    }
+  }, [initialSource]);
+
+  useEffect(() => {
+    return () => {
+      if (lastUrlRef.current) {
+        URL.revokeObjectURL(lastUrlRef.current);
+      }
     };
+  }, []);
 
-    const handleSave = async () => {
-        setIsSaving(true);
-        try {
-            await onSave(source);
-            toast.success("Saved successfully");
-        } catch (error) {
-            toast.error("Failed to save");
-            console.error(error);
-        } finally {
-            setIsSaving(false);
-        }
-    };
+  const handleSave = async () => {
+    setIsSaving(true);
+    try {
+      await onSave(source);
+      toast.success("Saved");
+    } catch {
+      toast.error("Save failed");
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
-    const handleCompile = async () => {
-        setIsCompiling(true);
-        try {
-            const response = await fetch("/api/compile", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ latexSource: source }),
-            });
+  const handleCompile = async () => {
+    setIsCompiling(true);
 
-            if (!response.ok) {
-                throw new Error("Compilation failed");
-            }
+    try {
+      const res = await fetch("/api/compile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ latexSource: source }),
+      });
 
-            const blob = await response.blob();
-            const url = URL.createObjectURL(blob);
-            setPdfUrl(url);
-            toast.success("Compiled successfully");
-        } catch (error) {
-            toast.error("Compilation failed");
-            console.error(error);
-        } finally {
-            setIsCompiling(false);
-        }
-    };
+      if (!res.ok) {
+        throw new Error("Compilation failed");
+      }
 
-    return (
-        <div className="flex flex-col h-[calc(100vh-64px)] w-full">
-            {/* Toolbar */}
-            <div className="flex items-center justify-between p-4 border-b border-border bg-background">
-                <h2 className="text-lg font-semibold">LaTeX Editor</h2>
-                <div className="flex gap-2">
-                    <Button variant="outline" onClick={handleSave} disabled={isSaving}>
-                        {isSaving ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Save className="w-4 h-4 mr-2" />}
-                        Save
-                    </Button>
-                    <Button onClick={handleCompile} disabled={isCompiling}>
-                        {isCompiling ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Play className="w-4 h-4 mr-2" />}
-                        Compile
-                    </Button>
-                </div>
-            </div>
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
 
-            {/* Split View */}
-            <div className="flex flex-1 overflow-hidden">
-                {/* Editor Pane */}
-                <div className="w-1/2 border-r border-border">
-                    <Editor
-                        height="100%"
-                        defaultLanguage="latex" // Monaco doesn't have built-in latex highlighting by default, but it's okay for now or we can use "params"
-                        language="bg" // using plain text or finding a latex plugin if possible. Actually 'latex' might not be supported out of box.
-                        // Let's try 'latex' anyway, mapped to 'plaintext' if missing.
-                        // A better options is 'ini' or 'shell' for basic highlighting if latex is missing.
-                        // However, let's stick to 'latex' and see.
-                        value={source}
-                        onChange={handleEditorChange}
-                        theme="vs-dark"
-                        options={{
-                            minimap: { enabled: false },
-                            wordWrap: "on",
-                        }}
-                    />
-                </div>
+      if (lastUrlRef.current) {
+        URL.revokeObjectURL(lastUrlRef.current);
+      }
 
-                {/* Preview Pane */}
-                <div className="w-1/2 bg-gray-100 flex items-center justify-center">
-                    {pdfUrl ? (
-                        <iframe
-                            src={pdfUrl}
-                            className="w-full h-full"
-                            title="PDF Preview"
-                        />
-                    ) : (
-                        <div className="text-muted-foreground">
-                            Click "Compile" to see preview
-                        </div>
-                    )}
-                </div>
-            </div>
+      lastUrlRef.current = url;
+      setPdfUrl(url);
+
+      if (res.headers.get("X-Compilation-Status") === "fallback") {
+        toast.warning("Preview mode", {
+          description: "Showing raw LaTeX source",
+        });
+      } else {
+        toast.success("Compiled successfully");
+      }
+    } catch (err: any) {
+      toast.error("Compilation failed", {
+        description: err.message,
+      });
+    } finally {
+      setIsCompiling(false);
+    }
+  };
+
+  return (
+    <div className="flex flex-col h-[calc(100vh-64px)]">
+      <div className="flex items-center justify-between p-4 border-b">
+        <h2 className="font-semibold">LaTeX Editor</h2>
+        <div className="flex gap-2">
+          <Button onClick={handleSave} disabled={isSaving}>
+            {isSaving ? <Loader2 className="animate-spin mr-2" /> : <Save className="mr-2" />}
+            Save
+          </Button>
+          <Button onClick={handleCompile} disabled={isCompiling}>
+            {isCompiling ? <Loader2 className="animate-spin mr-2" /> : <Play className="mr-2" />}
+            Compile
+          </Button>
         </div>
-    );
+      </div>
+
+      <div className="flex flex-1 overflow-hidden">
+        <div className="w-1/2 border-r">
+          <Editor
+            height="100%"
+            language="plaintext" // safest
+            theme="vs-dark"
+            value={source}
+            onChange={(v) => setSource(v ?? "")}
+            options={{
+              wordWrap: "on",
+              minimap: { enabled: false },
+              fontSize: 14,
+            }}
+          />
+        </div>
+
+        <div className="w-1/2 bg-muted">
+          {pdfUrl ? (
+            <iframe src={pdfUrl} className="w-full h-full" />
+          ) : (
+            <div className="flex h-full items-center justify-center text-muted-foreground">
+              Click Compile to preview
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }

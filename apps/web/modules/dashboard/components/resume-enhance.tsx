@@ -9,6 +9,7 @@ import { useTRPC } from "@workspace/trpc/client"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@workspace/ui/components"
+import { set } from "zod"
 
 
 interface ResumeEnhanceProps {
@@ -36,7 +37,7 @@ export const ResumeEnhance = ({ resumes }: ResumeEnhanceProps) => {
 
     const uploadJob = useMutation(trpc.jobs.create.mutationOptions({
         onSuccess: () => {
-            toast.success("Job uploaded successfully")
+            toast.success("Job details uploaded successfully")
             // window.location.reload() // Removed reload as it might interfere with analysis flow
         },
         onError: () => {
@@ -55,6 +56,9 @@ export const ResumeEnhance = ({ resumes }: ResumeEnhanceProps) => {
             title: jobTitle,
             description: jobDescription
         })
+        setJobTitle("")
+        setJobDescription("")
+        setSelectedResumeId("")
     }
 
     if (!isMounted) {

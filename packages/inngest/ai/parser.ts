@@ -1,8 +1,55 @@
 import { gemini } from "./llm";
 import { RESUME_JSON_SCHEMA } from "./resume";
 
+interface ResumeData {
+    name: string;
+    email: string | null;
+    phone: string | null;
+    skills: string[];
+    experience: Array<{
+        company: string;
+        role: string;
+        duration: string;
+        description: string;
+    }>;
+    education: Array<{
+        institution: string;
+        degree: string;
+        year: string;
+    }>;
+    projects: Array<{
+        title: string;
+        description: string;
+        tech: string[];
+    }>;
+    [key: string]: any;
+}
 
-export async function parseResumeWithGemini(rawText: string) {
+interface JobDescriptionData {
+    role_title: string;
+    seniority_level: string;
+    required_skills: string[];
+    preferred_skills: string[];
+    tools_and_technologies: string[];
+    responsibilities: string[];
+    experience_requirements: string;
+    keywords: string[];
+    [key: string]: any;
+}
+
+interface AnalysisResult {
+    missing_keywords: string[];
+    weak_or_underrepresented_skills: string[];
+    bullet_point_improvements: Array<{
+        original: string;
+        improved: string;
+    }>;
+    section_level_suggestions: string[];
+    overall_match_feedback: string;
+    [key: string]: any;
+}
+
+export async function parseResumeWithGemini(rawText: string): Promise<ResumeData> {
     const prompt = `
     You are an ATS resume parser.
 
@@ -12,24 +59,37 @@ export async function parseResumeWithGemini(rawText: string) {
     """
     ${rawText.slice(0, 12000)}
     """
+    
+    OUTPUT MUST BE VALID JSON.
     `;
 
-    const model = gemini.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: prompt,
-    });
-
-    const result = await model;
-    const text = result.text as string;
-
     try {
-        return JSON.parse(text);
-    } catch {
-        throw new Error("Gemini returned invalid JSON");
+        const model = gemini.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: prompt,
+            config: {
+                responseMimeType: "application/json",
+            }
+        });
+
+        const result = await model;
+        const text = result.text;
+
+        if (!text) {
+            throw new Error("Gemini returned empty text response");
+        }
+
+        // Clean up markdown code blocks if present (even with JSON mode, sometimes it wraps)
+        const cleanedText = text.replace(/^```json\s*/, "").replace(/^```\s*/, "").replace(/```$/, "").trim();
+
+        return JSON.parse(cleanedText);
+    } catch (error) {
+        console.error("Error parsing resume with Gemini:", error);
+        throw new Error("Gemini returned invalid JSON or failed to parse resume.");
     }
 }
 
-export async function jsonDescWithGemini(jobDescription: string) {
+export async function jsonDescWithGemini(jobDescription: string): Promise<JobDescriptionData> {
     const prompt = `
         You are an expert technical recruiter and ATS system.
 
@@ -93,22 +153,31 @@ export async function jsonDescWithGemini(jobDescription: string) {
         }
     `
 
-    const model = gemini.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: prompt,
-    })
-
-    const result = await model;
-    const text = result.text as string;
-
     try {
-        return JSON.parse(text);
-    } catch {
+        const model = gemini.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: prompt,
+            config: {
+                responseMimeType: "application/json",
+            }
+        });
+
+        const result = await model;
+        const text = result.text;
+
+        if (!text) {
+            throw new Error("Gemini returned empty text response");
+        }
+
+        const cleanedText = text.replace(/^```json\s*/, "").replace(/^```\s*/, "").replace(/```$/, "").trim();
+        return JSON.parse(cleanedText);
+    } catch (error) {
+        console.error("Error parsing job description:", error);
         throw new Error("Gemini returned invalid JSON");
     }
 }
 
-export async function enhanceResumeWithGemini(parsedData: JSON, jobTitle: string, jobDescription: JSON) {
+export async function enhanceResumeWithGemini(parsedData: any, jobTitle: string, jobDescription: any): Promise<AnalysisResult> {
     const prompt = `
         You are an expert ATS resume reviewer and hiring manager.
 
@@ -123,13 +192,13 @@ export async function enhanceResumeWithGemini(parsedData: JSON, jobTitle: string
 
         ----------------------------------
         Parsed Resume JSON:
-        ${parsedData}
+        ${JSON.stringify(parsedData)}
         ----------------------------------
         Job Title:
         ${jobTitle}
         ----------------------------------
         Parsed Job Description JSON:
-        ${jobDescription}
+        ${JSON.stringify(jobDescription)}
         ----------------------------------
 
         Analyze the resume against the job description and provide enhancement suggestions under the following sections:
@@ -184,17 +253,121 @@ export async function enhanceResumeWithGemini(parsedData: JSON, jobTitle: string
         }
     `;
 
-    const model = gemini.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: prompt
-    })
+    try {
+        const model = gemini.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: prompt,
+            config: {
+                responseMimeType: "application/json",
+            }
+        });
 
-    const result = await model;
-    const enhancedTest = result.text as string;
+        const result = await model;
+        const enhancedTest = result.text;
+
+        if (!enhancedTest) {
+            throw new Error("Gemini returned empty text response");
+        }
+
+        const cleanedText = enhancedTest.replace(/^```json\s*/, "").replace(/^```\s*/, "").replace(/```$/, "").trim();
+        return JSON.parse(cleanedText);
+    } catch (error) {
+        console.error("Error enhancing resume:", error);
+        throw new Error("Gemini returned invalid JSON for resume enhancement.");
+    }
+}
+
+export const latexGenerator = async (resume: any): Promise<string> => {
+    const prompt = `
+    You are an expert LaTeX resume generator.
+
+    ${RESUME_JSON_SCHEMA}
+
+    Resume JSON:
+    """
+    ${JSON.stringify(resume)}
+    """
+    
+    Output ONLY the raw LaTeX code. Do not include markdown formatting like \`\`\`latex or \`\`\`.
+    `;
 
     try {
-        return JSON.parse(enhancedTest) as JSON;
-    } catch {
-        throw new Error("Gemini returned invalid JSON");
+        const model = gemini.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: prompt,
+            // Note: We do NOT use responseMimeType: "application/json" here because we want raw text (LaTeX)
+        });
+
+        const result = await model;
+        const text = result.text;
+
+        if (!text) {
+            throw new Error("Gemini returned empty text response");
+        }
+
+        // Clean up potential markdown code blocks if the prompt instruction fails
+        const cleanedText = text.replace(/^```latex\s*/, "").replace(/^```\s*/, "").replace(/```$/, "").trim();
+
+        return cleanedText;
+    } catch (error) {
+        console.error("Error generating LaTeX:", error);
+        throw new Error("Failed to generate LaTeX resume.");
+    }
+}
+
+export const jobQueryGenerator = async (resume: any, jobTitle: string, jobDescription: any): Promise<string[]> => {
+    const prompt = `
+        You are a job search optimization engine.
+
+        INPUT:
+        - Job title (user intent): ${jobTitle}
+        - Resume JSON: ${JSON.stringify(resume)}
+        - Job description JSON: ${JSON.stringify(jobDescription)}
+
+        TASK:
+        Generate 3 to 5 optimized job search queries that would return
+        the most relevant job listings.
+
+        RULES:
+        - Each query must be 5–10 words
+        - Include role + core skills
+        - Prefer entry-level wording if experience < 2 years (based on resume)
+        - Do NOT include company names
+        - Do NOT include explanations
+        - Do NOT include numbering or bullets
+        - OUTPUT MUST BE A VALID JSON ARRAY OF STRINGS: ["query 1", "query 2", ...]
+
+        OUTPUT:
+    `;
+
+    try {
+        const model = gemini.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: prompt,
+            config: {
+                responseMimeType: "application/json",
+            }
+        });
+
+        const result = await model;
+        const text = result.text;
+
+        if (!text) {
+            return [];
+        }
+
+        // Clean up markdown code blocks if present
+        const cleanedText = text.replace(/^```json\s*/, "").replace(/^```\s*/, "").replace(/```$/, "").trim();
+
+        const queries = JSON.parse(cleanedText);
+
+        if (Array.isArray(queries)) {
+            return queries.filter(q => typeof q === "string" && q.length > 0);
+        }
+
+        return [];
+    } catch (error) {
+        console.error("Error generating job queries:", error);
+        return [];
     }
 }

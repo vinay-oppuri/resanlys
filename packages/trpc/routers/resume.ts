@@ -66,7 +66,6 @@ export const resumeRouter = createTRPCRouter({
                     status: resumes.status,
                     createdAt: resumes.createdAt,
                     latexSource: resumes.latexSource,
-                    compiledPdfUrl: resumes.compiledPdfUrl,
                     hasEnhancedData: sql<boolean>`EXISTS (SELECT 1 FROM ${jobs} WHERE ${jobs.resumeId} = ${resumes.id} AND ${jobs.enhancedData} IS NOT NULL)`
                 })
                 .from(resumes)
@@ -102,6 +101,23 @@ export const resumeRouter = createTRPCRouter({
             return { getAnalyzedResumes }
             return { getAnalyzedResumes }
         }),
+
+
+    // GET LATEX FROM JSONS
+    // getLatex: protectedProcedure
+    //     .input(
+    //         z.object({
+    //             id: z.string(),
+    //         })
+    //     )
+    //     .query(async ({ctx, input}) => {
+    //         const latexCode = await db
+    //             .select(resumes.parsedData)
+    //             .from(resumes)
+    //             .where(
+    //                 and(eq(resumes.userId, ctx.auth.session.userId), eq(resumes.id, input.id))
+    //             )
+    //     }),
 
     // UPDATE RESUME SOURCE
     updateSource: protectedProcedure

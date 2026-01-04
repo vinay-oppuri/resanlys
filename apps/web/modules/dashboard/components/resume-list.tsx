@@ -2,7 +2,6 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { FileText, Clock, Loader2, Sparkles, X, Check, TriangleAlertIcon } from "lucide-react"
 import { Button } from "@workspace/ui/components/button"
-import LoaderOne from "@workspace/ui/components/ui/loader-one"
 import { Badge } from "@workspace/ui/components/badge"
 import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@workspace/ui/components/dialog"
 import { useTRPC } from "@workspace/trpc/client"
@@ -11,6 +10,7 @@ import { ResumeAnalysisDisplay } from "./resume-analysis-display"
 import { EnhancedData } from "./resume-enhance"
 import { cn } from "@workspace/ui/lib/utils"
 import { JobDetailsDialog } from "./job-details-dialog"
+import Loader from "@workspace/ui/components/ui/loader"
 
 interface ResumeListProps {
     resumes: any[]
@@ -44,8 +44,7 @@ export const ResumeList = ({ resumes, isLoading }: ResumeListProps) => {
 
             {isLoading ? (
                 <div className="flex flex-col items-center justify-center p-2 md:p-12 space-y-4 rounded-xl border border-dashed text-muted-foreground bg-muted/20">
-                    <LoaderOne />
-                    <p className="text-sm">Loading your resumes...</p>
+                    <Loader />
                 </div>
             ) : resumes?.length === 0 ? (
                 <div className="flex flex-col items-center justify-center p-2 md:p-12 text-center rounded-2xl border border-dashed bg-muted/20">
@@ -115,7 +114,7 @@ export const ResumeList = ({ resumes, isLoading }: ResumeListProps) => {
                                             <div className="flex-1 overflow-y-auto p-6 md:p-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                                                 {isLoadingSuggestions ? (
                                                     <div className="flex flex-col items-center justify-center p-2 md:p-12 h-full gap-4">
-                                                        <Loader2 className="size-7 md:spin-14 animate-spin"/>
+                                                        <Loader />
                                                         <p className="text-muted-foreground font-medium animate-pulse">Analyzing resume insights...</p>
                                                     </div>
                                                 ) : suggestionsData?.enhancedData ? (

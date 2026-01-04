@@ -48,17 +48,33 @@ export const verification = pgTable("verification", {
 
 export const resumes = pgTable("resumes", {
   id: text("id").primaryKey(),
-  userId: text("user_id").references(() => user.id),
+
+  userId: text("user_id")
+    .references(() => user.id)
+    .notNull(),
+
+  // -------- File metadata (initial upload only) --------
   fileName: text("file_name").notNull(),
-  fileType: text("file_type").notNull(),
+  fileType: text("file_type").notNull(), // pdf | docx
   fileSize: integer("file_size"),
-  rawText: text("raw_text"),
-  parsedData: jsonb("parsed_data"),
-  latexSource: text("latex_source"),
-  compiledPdfUrl: text("compiled_pdf_url"),
-  status: text("status").default("uploaded"),
-  createdAt: timestamp("created_at").notNull(),
-  updatedAt: timestamp("updated_at"),
+
+  // -------- Resume content layers --------
+  rawText: text("raw_text"),              // extracted text
+  parsedData: jsonb("parsed_data"),        // structured resume JSON
+  latexSource: text("latex_source"),       // editable LaTeX source
+
+  // -------- Processing state --------
+  status: text("status")
+    .default("uploaded"),
+  // uploaded | parsed | latex_generated | edited
+
+  // -------- Timestamps --------
+  createdAt: timestamp("created_at")
+    .defaultNow()
+    .notNull(),
+
+  updatedAt: timestamp("updated_at")
+    .defaultNow(),
 });
 
 
@@ -96,6 +112,7 @@ export const jobs = pgTable("jobs", {
     }
   */
 
+  searchQueries: jsonb("search_queries"),
   createdAt: timestamp("created_at").notNull(),
 });
 
@@ -125,4 +142,13 @@ export const matches = pgTable("job_matches", {
   */
 
   createdAt: timestamp("created_at").notNull(),
+});
+
+export const job_cache = pgTable("job_cache", {
+  id: text("id").primaryKey(),
+  query: text("query").notNull(),
+  location: text("location").notNull(),
+  provider: text("provider").notNull(), // 'adzuna' | 'rapidapi'
+  data: jsonb("data").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
