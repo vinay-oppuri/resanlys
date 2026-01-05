@@ -1,87 +1,53 @@
-import { NextRequest, NextResponse } from "next/server";
-import { jsPDF } from "jspdf";
+// app/api/compile/route.ts
+import { NextRequest, NextResponse } from "next/server"
+import { db } from "@workspace/db"
+import { resumes } from "@workspace/db/schema"
+import { inngest } from "@workspace/inngest/client"
+import crypto from "crypto"
+import { headers } from "next/headers"
+import { auth } from "@workspace/auth"
 
-export const runtime = "nodejs"; // IMPORTANT
+export const runtime = "nodejs"
 
 export async function POST(req: NextRequest) {
-    let latexSource = "";
+  const session = await auth.api.getSession({ headers: await headers() })
+  const { latexSource, resumeId: legacyResumeId } = await req.json()
 
-    try {
-        const body = await req.json();
-        latexSource = body.latexSource;
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  }
 
-        if (!latexSource || typeof latexSource !== "string") {
-            return NextResponse.json(
-                { error: "No LaTeX source provided" },
-                { status: 400 }
-            );
-        }
+  if (!latexSource || typeof latexSource !== "string") {
+    return NextResponse.json(
+      { error: "Invalid LaTeX source" },
+      { status: 400 }
+    )
+  }
 
-        // External LaTeX compilation
-        const response = await fetch("https://latex.online/compile", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
-            body: new URLSearchParams({ text: latexSource }),
-            signal: AbortSignal.timeout(15_000),
-        });
+  const userId = session.user.id
+  const resumeId = crypto.randomUUID()
 
-        if (!response.ok) {
-            throw new Error(await response.text());
-        }
+  // 1️⃣ Insert DB record
+  await db.insert(resumes).values({
+    id: resumeId,
+    userId,
+    latexSource,
+    fileName: "Generated Resume",
+    fileType: "latex",
+    status: "queued",
+  })
 
-        const buffer = Buffer.from(await response.arrayBuffer());
+  // 2️⃣ Emit Inngest event
+  await inngest.send({
+    name: "latex/compile.requested",
+    data: {
+      resumeId,
+      userId,
+    },
+  })
 
-        return new NextResponse(buffer, {
-            headers: {
-                "Content-Type": "application/pdf",
-                "Content-Disposition": 'inline; filename="preview.pdf"',
-            },
-        });
-    } catch (err) {
-        console.error("Compilation failed, using fallback:", err);
-
-        // FALLBACK PDF
-        try {
-            const doc = new jsPDF({ compress: true });
-
-            doc.setTextColor(255, 0, 0);
-            doc.setFontSize(14);
-            doc.text("PREVIEW UNAVAILABLE", 10, 15);
-
-            doc.setFontSize(10);
-            doc.text("Showing raw LaTeX source", 10, 22);
-
-            doc.setTextColor(0, 0, 0);
-            doc.setFont("courier", "normal");
-
-            const lines = doc.splitTextToSize(latexSource, 180);
-            let y = 30;
-
-            for (const line of lines) {
-                if (y > 280) {
-                    doc.addPage();
-                    y = 10;
-                }
-                doc.text(line, 10, y);
-                y += 5;
-            }
-
-            const pdfBuffer = Buffer.from(doc.output("arraybuffer"));
-
-            return new NextResponse(pdfBuffer, {
-                headers: {
-                    "Content-Type": "application/pdf",
-                    "X-Compilation-Status": "fallback",
-                },
-            });
-        } catch (fallbackErr) {
-            console.error("Fallback failed:", fallbackErr);
-            return NextResponse.json(
-                { error: "PDF generation failed" },
-                { status: 500 }
-            );
-        }
-    }
+  return NextResponse.json({
+    resumeId,
+    status: "queued",
+  })
 }

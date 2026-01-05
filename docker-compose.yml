@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  latex-online:
+    image: aslushnikov/latex-online
+    ports:
+      - "2700:2700"
+    restart: always
+
+  latex-sandbox:
+    build:
+      context: ./packages/inngest/latex-sandbox
+    ports:
+      - "8080:8080"
+    restart: always
