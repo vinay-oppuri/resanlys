@@ -140,7 +140,7 @@ export function EditorView({
       </div>
 
       <div className="flex-1 overflow-hidden">
-        <ResizablePanelGroup>
+        <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={50} minSize={20}>
             {mounted && (
               <Editor

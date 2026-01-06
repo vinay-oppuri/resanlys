@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import { TRPCReactProvider } from "@workspace/trpc/client";
 import { Toaster } from "@workspace/ui/components/ui/sonner";
+import { ScrollToTop } from "@workspace/ui/components/scroll-to-top";
 
 const PoppinsFont = Poppins({
   subsets: ["latin"],
@@ -35,6 +36,7 @@ export default function RootLayout({
           >
             {children}
             <Toaster closeButton richColors position="bottom-right" />
+            <ScrollToTop />
           </ThemeProvider>
         </TRPCReactProvider>
       </body>
