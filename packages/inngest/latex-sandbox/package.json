@@ -1,4 +1,6 @@
 {
+  "name": "latex-sandbox",
   "type": "module",
+  "private": true,
   "dependencies": {}
 }

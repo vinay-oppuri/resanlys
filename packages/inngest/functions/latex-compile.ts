@@ -1,6 +1,6 @@
 import { inngest } from "../client"
 import { db } from "@workspace/db"
-import { resumes } from "@workspace/db/schema"
+import { resumes, compiled_resumes } from "@workspace/db/schema"
 import { eq } from "drizzle-orm"
 import crypto from "crypto"
 import fs from "fs/promises"
@@ -37,75 +37,63 @@ async function storePdf(resumeId: string, buffer: Buffer) {
 export const compileLatex = inngest.createFunction(
     {
         id: "latex-compile",
-        retries: 3,
+        retries: 2,
     },
     { event: "latex/compile.requested" },
     async ({ event, step }) => {
         const { resumeId } = event.data
 
-        // 1️⃣ Load resume
-        const [resume] = await db
+        // 1️⃣ Load compiled resume record
+        const [compiled] = await db
             .select()
-            .from(resumes)
-            .where(eq(resumes.id, resumeId))
+            .from(compiled_resumes)
+            .where(eq(compiled_resumes.resumeId, resumeId))
 
-        if (!resume?.latexSource) {
-            throw new Error("LaTeX source not found")
+        if (!compiled?.latexSource) {
+            throw new Error("LaTeX source not found in compiled_resumes queue")
         }
 
-        sanitizeLatex(resume.latexSource)
+        sanitizeLatex(compiled.latexSource)
 
         // 2️⃣ Mark compiling
         await db
-            .update(resumes)
+            .update(compiled_resumes)
             .set({ status: "compiling", updatedAt: new Date() })
-            .where(eq(resumes.id, resumeId))
+            .where(eq(compiled_resumes.resumeId, resumeId))
 
         // 3️⃣ Compile (retry-safe)
-        const pdfBase64 = await step.run("compile-latex", async () => {
-            // ---- TRY DOCKER SANDBOX ----
-            try {
-                // Use 127.0.0.1 since we are running on host talking to mapped container port
-                const res = await fetch("http://127.0.0.1:8080/compile", {
+        const pdfUrl = await step.run("compile-and-store", async () => {
+            const latexSource =
+                typeof compiled.latexSource === "string"
+                    ? compiled.latexSource
+                    : JSON.stringify(compiled.latexSource)
+
+            const res = await fetch(
+                process.env.LATEX_SANDBOX_URL ?? "http://127.0.0.1:8080/compile",
+                {
                     method: "POST",
                     headers: { "Content-Type": "text/plain" },
-                    body: resume.latexSource!,
-                    signal: AbortSignal.timeout(60_000), // increased timeout for install
-                })
+                    body: latexSource,
+                    signal: AbortSignal.timeout(30_000),
+                }
+            )
 
-                if (!res.ok) throw new Error(await res.text())
-                return Buffer.from(await res.arrayBuffer()).toString("base64")
-
-            } catch (dockerErr) {
-                console.warn("Docker LaTeX failed, falling back", dockerErr)
-
-                // ---- FALLBACK: latex.online ----
-                const res = await fetch("https://latex.online/compile", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded",
-                    },
-                    body: new URLSearchParams({ text: resume.latexSource! }),
-                    signal: AbortSignal.timeout(20_000),
-                })
-
-                if (!res.ok) throw new Error(await res.text())
-                return Buffer.from(await res.arrayBuffer()).toString("base64")
+            if (!res.ok) {
+                throw new Error(await res.text())
             }
-        })
 
-        // 4️⃣ Store PDF
-        const pdfBuffer = Buffer.from(pdfBase64, "base64")
-        const pdfUrl = await storePdf(resumeId, pdfBuffer)
+            const buffer = Buffer.from(await res.arrayBuffer())
+            return await storePdf(resumeId, buffer) // ✅ Buffer never escapes
+        })
 
         // 5️⃣ Mark success
         await db
-            .update(resumes)
+            .update(compiled_resumes)
             .set({
                 status: "compiled",
-                parsedData: { pdfUrl },
+                pdfUrl: pdfUrl,
                 updatedAt: new Date(),
             })
-            .where(eq(resumes.id, resumeId))
+            .where(eq(compiled_resumes.resumeId, resumeId))
     }
 )

@@ -37,6 +37,7 @@
         "@workspace/trpc": "workspace:*",
         "@workspace/ui": "workspace:*",
         "better-auth": "^1.4.9",
+        "drizzle-orm": "^0.39.1",
         "inngest": "^3.48.1",
         "jspdf": "^3.0.4",
         "lucide-react": "^0.562.0",

@@ -75,6 +75,8 @@ export const resumes = pgTable("resumes", {
 
   updatedAt: timestamp("updated_at")
     .defaultNow(),
+
+  atsScore: integer("ats_score"),
 });
 
 
@@ -151,4 +153,22 @@ export const job_cache = pgTable("job_cache", {
   provider: text("provider").notNull(), // 'adzuna' | 'rapidapi'
   data: jsonb("data").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const compiled_resumes = pgTable("compiled_resumes", {
+  id: text("id").primaryKey(),
+  resumeId: text("resume_id")
+    .references(() => resumes.id)
+    .notNull(), // 1:1 mapping logic handled in app, unique index could be added if strict 1:1 required
+
+  latexSource: text("latex_source"), // The source used for this compilation
+  parsedData: jsonb("parsed_data"), // structured resume JSON for this version
+
+  pdfUrl: text("pdf_url"),
+  atsScore: integer("ats_score"),
+
+  status: text("status").default("queued"), // queued | compiling | compiled | failed
+
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
