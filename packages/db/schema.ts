@@ -165,6 +165,7 @@ export const compiled_resumes = pgTable("compiled_resumes", {
   parsedData: jsonb("parsed_data"), // structured resume JSON for this version
 
   pdfUrl: text("pdf_url"),
+  pdfContent: text("pdf_content"), // Base64 encoded PDF
   atsScore: integer("ats_score"),
 
   status: text("status").default("queued"), // queued | compiling | compiled | failed

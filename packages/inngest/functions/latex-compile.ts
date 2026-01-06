@@ -3,8 +3,7 @@ import { db } from "@workspace/db"
 import { resumes, compiled_resumes } from "@workspace/db/schema"
 import { eq } from "drizzle-orm"
 import crypto from "crypto"
-import fs from "fs/promises"
-import path from "path"
+
 
 // ---- SECURITY ----
 function sanitizeLatex(source: string) {
@@ -23,16 +22,7 @@ function sanitizeLatex(source: string) {
     }
 }
 
-// ---- STORAGE (local for now) ----
-async function storePdf(resumeId: string, buffer: Buffer) {
-    const dir = path.join(process.cwd(), "compiled")
-    await fs.mkdir(dir, { recursive: true })
 
-    const filePath = path.join(dir, `${resumeId}.pdf`)
-    await fs.writeFile(filePath, buffer)
-
-    return `/compiled/${resumeId}.pdf`
-}
 
 export const compileLatex = inngest.createFunction(
     {
@@ -83,7 +73,7 @@ export const compileLatex = inngest.createFunction(
             }
 
             const buffer = Buffer.from(await res.arrayBuffer())
-            return await storePdf(resumeId, buffer) // ✅ Buffer never escapes
+            return buffer.toString("base64")
         })
 
         // 5️⃣ Mark success
@@ -91,7 +81,7 @@ export const compileLatex = inngest.createFunction(
             .update(compiled_resumes)
             .set({
                 status: "compiled",
-                pdfUrl: pdfUrl,
+                pdfContent: pdfUrl, // compiled step returns base64 string now
                 updatedAt: new Date(),
             })
             .where(eq(compiled_resumes.resumeId, resumeId))

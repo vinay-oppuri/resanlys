@@ -3,7 +3,7 @@ version: "3.8"
 services:
   latex-sandbox:
     build:
-      context: ./packages/inngest/latex-sandbox
+      context: ./packages/latex-sandbox
     container_name: latex-sandbox
     ports:
       - "8080:8080"

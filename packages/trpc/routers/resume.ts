@@ -1,6 +1,6 @@
 import { z } from "zod"
 import { createTRPCRouter, protectedProcedure } from "../init"
-import { db, resumes, jobs } from "@workspace/db"
+import { db, resumes, jobs, compiled_resumes } from "@workspace/db"
 import { inngest } from "@workspace/inngest/client";
 import { and, desc, eq, sql } from "drizzle-orm";
 
@@ -99,7 +99,7 @@ export const resumeRouter = createTRPCRouter({
                 .orderBy(desc(resumes.createdAt));
 
             return { getAnalyzedResumes }
-            return { getAnalyzedResumes }
+
         }),
 
 
@@ -138,6 +138,18 @@ export const resumeRouter = createTRPCRouter({
                 .returning();
 
             return updatedResume;
+        }),
+
+    // GET COMPILED PDF
+    getCompiledPDF: protectedProcedure
+        .input(z.object({ resumeId: z.string() }))
+        .query(async ({ ctx, input }) => {
+            const [compiled] = await db
+                .select()
+                .from(compiled_resumes)
+                .where(eq(compiled_resumes.resumeId, input.resumeId));
+
+            return compiled || null;
         }),
 
 })
