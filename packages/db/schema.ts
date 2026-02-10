@@ -84,7 +84,6 @@ export const jobs = pgTable("jobs", {
   id: text("id").primaryKey(),
   userId: text("user_id").references(() => user.id),
   resumeId: text("resume_id").references(() => resumes.id),
-  title: text("title").notNull(),
   description: text("description"), // raw JD text
 
   // AI extracted JD structure

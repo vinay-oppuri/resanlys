@@ -125,7 +125,7 @@ export const ResumeList = ({ resumes, isLoading }: ResumeListProps) => {
                                                             <Sparkles className="size-8 text-muted-foreground/50" />
                                                         </div>
                                                         <p className="text-muted-foreground font-medium">No insights found for this resume.</p>
-                                                        <p className="text-red-500/80 font-medium">Save Job Title and Job Description to get insights.</p>
+                                                        <p className="text-red-500/80 font-medium">Save a job description to get insights.</p>
                                                         <JobDetailsDialog resumeId={resume.id} />
                                                     </div>
                                                 )}

@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query"
 import { useTRPC } from "@workspace/trpc/client"
-import { Button, Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger, Input, Textarea, toast } from "@workspace/ui/components"
+import { Button, Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger, Textarea, toast } from "@workspace/ui/components"
 import LoaderOne from "@workspace/ui/components/ui/loader-one"
 import { useState } from "react"
 
@@ -9,7 +9,6 @@ interface JobDetailsDialogProps {
 }
 
 export const JobDetailsDialog = ({ resumeId }: JobDetailsDialogProps) => {
-    const [jobTitle, setJobTitle] = useState<string>("")
     const [jobDescription, setJobDescription] = useState<string>("")
 
     const trpc = useTRPC()
@@ -23,13 +22,12 @@ export const JobDetailsDialog = ({ resumeId }: JobDetailsDialogProps) => {
     }))
 
     const handleSaveJob = () => {
-        if (!resumeId || !jobTitle || !jobDescription) {
-            toast.error("Please fill all fields")
+        if (!resumeId || !jobDescription) {
+            toast.error("Please add a job description")
             return
         }
         uploadJob({
             resumeId: resumeId,
-            title: jobTitle,
             description: jobDescription,
         })
     }
@@ -46,16 +44,6 @@ export const JobDetailsDialog = ({ resumeId }: JobDetailsDialogProps) => {
                 </DialogDescription>
                 <div className="space-y-6">
                     <div className="flex flex-col gap-2">
-                        <label className="text-sm font-semibold text-foreground/80 ml-1">Job Title</label>
-                        <Input
-                            placeholder="e.g. Senior Frontend Engineer"
-                            value={jobTitle}
-                            onChange={(e) => setJobTitle(e.target.value)}
-                            className="h-10 px-4 text-sm md:text-md bg-background/50 border-border/60 focus:border-primary/50 transition-all duration-300 focus:scale-[1.005] focus:ring-4 focus:ring-primary/10 rounded-md"
-                        />
-                    </div>
-
-                    <div className="flex flex-col gap-2">
                         <label className="text-sm font-semibold text-foreground/80 ml-1">Job Description</label>
                         <Textarea
                             value={jobDescription}
@@ -67,7 +55,7 @@ export const JobDetailsDialog = ({ resumeId }: JobDetailsDialogProps) => {
 
                     <Button
                         onClick={handleSaveJob}
-                        disabled={!resumeId || !jobTitle || !jobDescription || isPending}
+                        disabled={!resumeId || !jobDescription || isPending}
                         className="w-full h-10 gap-2 text-sm md:text-base font-semibold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5 rounded-xl"
                         variant="default"
                     >

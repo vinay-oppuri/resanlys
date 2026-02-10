@@ -40,10 +40,15 @@ export const ResumeUpload = () => {
             }
 
             const { text, fileName, fileType, fileSize } = await uploadRes.json();
+            const normalizedFileType = normalizeFileType(fileType, fileName);
+
+            if (!normalizedFileType) {
+                throw new Error("Unsupported file type. Please upload a PDF, DOC, or DOCX.")
+            }
 
             await uploadResume.mutateAsync({
                 fileName: fileName,
-                fileType: fileType as "pdf",
+                fileType: normalizedFileType,
                 fileSize: fileSize,
                 rawText: text
             })
@@ -116,4 +121,25 @@ export const ResumeUpload = () => {
             </div>
         </div>
     )
+}
+
+const normalizeFileType = (mimeType?: string, fileName?: string): "pdf" | "doc" | "docx" | null => {
+    switch (mimeType) {
+        case "application/pdf":
+            return "pdf"
+        case "application/msword":
+            return "doc"
+        case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+            return "docx"
+        default:
+            break
+    }
+
+    const name = (fileName ?? "").toLowerCase()
+    const ext = name.includes(".") ? name.split(".").pop() : ""
+    if (ext === "pdf" || ext === "doc" || ext === "docx") {
+        return ext
+    }
+
+    return null
 }

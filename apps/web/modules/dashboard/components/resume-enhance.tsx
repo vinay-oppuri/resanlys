@@ -2,14 +2,12 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@workspace/ui/components/button"
-import { Input } from "@workspace/ui/components/input"
 import { Textarea } from "@workspace/ui/components/textarea"
 import LoaderOne from "@workspace/ui/components/ui/loader-one"
 import { useTRPC } from "@workspace/trpc/client"
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@workspace/ui/components"
-import { set } from "zod"
 
 
 interface ResumeEnhanceProps {
@@ -27,7 +25,6 @@ export interface EnhancedData {
 export const ResumeEnhance = ({ resumes }: ResumeEnhanceProps) => {
     const trpc = useTRPC()
     const [isMounted, setIsMounted] = useState(false)
-    const [jobTitle, setJobTitle] = useState<string>("")
     const [jobDescription, setJobDescription] = useState<string>("")
     const [selectedResumeId, setSelectedResumeId] = useState<string>("")
 
@@ -46,17 +43,15 @@ export const ResumeEnhance = ({ resumes }: ResumeEnhanceProps) => {
     }))
 
     const handleSaveJob = async () => {
-        if (!selectedResumeId || !jobTitle || !jobDescription) {
-            toast.error("Please fill all fields and select a resume")
+        if (!selectedResumeId || !jobDescription) {
+            toast.error("Please add a job description and select a resume")
             return
         }
 
         await uploadJob.mutateAsync({
             resumeId: selectedResumeId,
-            title: jobTitle,
             description: jobDescription
         })
-        setJobTitle("")
         setJobDescription("")
         setSelectedResumeId("")
     }
@@ -89,16 +84,6 @@ export const ResumeEnhance = ({ resumes }: ResumeEnhanceProps) => {
                     </Select>
                 </div>
                 <div className="flex flex-col gap-2">
-                    <label className="text-sm font-semibold text-foreground/80 ml-1">Job Title</label>
-                    <Input
-                        placeholder="e.g. Senior Frontend Engineer"
-                        value={jobTitle}
-                        onChange={(e) => setJobTitle(e.target.value)}
-                        className="h-10 px-4 text-sm md:text-md bg-background/50 border-border/60 focus:border-primary/50 transition-all duration-300 focus:scale-[1.005] focus:ring-4 focus:ring-primary/10 rounded-md"
-                    />
-                </div>
-
-                <div className="flex flex-col gap-2">
                     <label className="text-sm font-semibold text-foreground/80 ml-1">Job Description</label>
                     <Textarea
                         value={jobDescription}
@@ -110,7 +95,7 @@ export const ResumeEnhance = ({ resumes }: ResumeEnhanceProps) => {
 
                 <Button
                     onClick={handleSaveJob}
-                    disabled={!selectedResumeId || !jobTitle || !jobDescription || uploadJob.isPending}
+                    disabled={!selectedResumeId || !jobDescription || uploadJob.isPending}
                     className="w-full h-10 gap-2 text-sm md:text-base font-semibold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5 rounded-xl"
                     variant="default"
                 >

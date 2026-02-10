@@ -11,7 +11,6 @@ export const jobsRouter = createTRPCRouter({
         .input(
             z.object({
                 resumeId: z.string(),
-                title: z.string(),
                 description: z.string(),
             })
         )
@@ -22,7 +21,6 @@ export const jobsRouter = createTRPCRouter({
                     id: crypto.randomUUID(),
                     userId: ctx.auth.session.userId,
                     resumeId: input.resumeId,
-                    title: input.title,
                     description: input.description,
                     createdAt: new Date(),
                 })
@@ -38,7 +36,6 @@ export const jobsRouter = createTRPCRouter({
                     data: {
                         resumeId: input.resumeId,
                         jobId: job.id,
-                        jobTitle: input.title,
                         jobDescription: input.description,
                     }
                 })

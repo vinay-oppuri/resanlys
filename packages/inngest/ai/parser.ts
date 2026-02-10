@@ -177,7 +177,8 @@ export async function jsonDescWithGemini(jobDescription: string): Promise<JobDes
     }
 }
 
-export async function enhanceResumeWithGemini(parsedData: any, jobTitle: string, jobDescription: any): Promise<AnalysisResult> {
+export async function enhanceResumeWithGemini(parsedData: any, jobDescription: any): Promise<AnalysisResult> {
+    const roleTitle = typeof jobDescription?.role_title === "string" ? jobDescription.role_title : "";
     const prompt = `
         You are an expert ATS resume reviewer and hiring manager.
 
@@ -187,15 +188,14 @@ export async function enhanceResumeWithGemini(parsedData: any, jobTitle: string,
 
         You are given:
         1. Parsed Resume JSON
-        2. Job Title
-        3. Parsed Job Description JSON
+        2. Parsed Job Description JSON
 
         ----------------------------------
         Parsed Resume JSON:
         ${JSON.stringify(parsedData)}
         ----------------------------------
-        Job Title:
-        ${jobTitle}
+        Role Title (from job description):
+        ${roleTitle}
         ----------------------------------
         Parsed Job Description JSON:
         ${JSON.stringify(jobDescription)}
@@ -315,12 +315,13 @@ export const latexGenerator = async (resume: any): Promise<string> => {
     }
 }
 
-export const jobQueryGenerator = async (resume: any, jobTitle: string, jobDescription: any): Promise<string[]> => {
+export const jobQueryGenerator = async (resume: any, jobDescription: any): Promise<string[]> => {
+    const roleTitle = typeof jobDescription?.role_title === "string" ? jobDescription.role_title : "";
     const prompt = `
         You are a job search optimization engine.
 
         INPUT:
-        - Job title (user intent): ${jobTitle}
+        - Role title (from job description): ${roleTitle}
         - Resume JSON: ${JSON.stringify(resume)}
         - Job description JSON: ${JSON.stringify(jobDescription)}
 
