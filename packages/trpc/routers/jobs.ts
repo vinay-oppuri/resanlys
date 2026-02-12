@@ -11,7 +11,7 @@ export const jobsRouter = createTRPCRouter({
         .input(
             z.object({
                 resumeId: z.string(),
-                description: z.string(),
+                description: z.string().trim().min(1, "Job description is required"),
             })
         )
         .mutation(async ({ ctx, input }) => {

@@ -71,9 +71,12 @@ export const ResumeList = ({ resumes, isLoading }: ResumeListProps) => {
                                     <div className="space-y-2 md:space-y-1">
                                         <p
                                             onClick={() => router.push(`/dashboard/resumes/${resume.id}/editor`)}
-                                            className="hover:underline font-semibold transition-colors line-clamp-1 text-md md:text-base tracking-tight cursor-pointer"
+                                            className="hover:underline truncate font-semibold transition-colors line-clamp-1 text-md md:text-base tracking-tight cursor-pointer"
                                         >
-                                            {resume.fileName}
+                                            {resume.fileName.length > 10
+                                                ? `${resume.fileName.slice(0, 7)}...`
+                                                : resume.fileName
+                                            }
                                         </p>
                                         <div className="flex items-center gap-3 text-xs text-muted-foreground font-medium">
                                             <span className="flex items-center gap-1.5 bg-muted/50 px-2 py-0.5 rounded-md">
